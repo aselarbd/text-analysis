@@ -129,5 +129,3 @@ dmypy.json
 
 .gitignore
 .idea/
-manage.py
-mosega_backend/
