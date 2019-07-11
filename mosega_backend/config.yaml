@@ -1,0 +1,6 @@
+database :
+  db_engine: 'djongo'
+  db_name: 'mosega-dev'
+  db_host: 'mongodb+srv://mosega_super_user:mosegasuper@aselacluster-nfyzw.mongodb.net/test?retryWrites=true&w=majority'
+  db_username: 'mosega'
+  db_password: 'mosegasuper'
