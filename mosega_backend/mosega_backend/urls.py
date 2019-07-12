@@ -32,7 +32,7 @@ urlpatterns = [
 
     path('', include('SampleAPI.SampleAPI_URLs')),
 
-    path('api/v1/textProcessing/', include('TextPreProcessing.TextPreProcessing_URLs')),
+    path('', include('TextPreProcessing.TextPreProcessing_URLs')),
 
     path('admin/', admin.site.urls),
 ]
