@@ -4,3 +4,20 @@ database :
   db_host: 'mongodb+srv://mosega_super_user:mosegasuper@aselacluster-nfyzw.mongodb.net/test?retryWrites=true&w=majority'
   db_username: 'mosega'
   db_password: 'mosegasuper'
+
+
+api:
+
+  title: 'api'
+  documentation: 'api_doc'
+  current_version: 'v1'
+
+  backend:
+
+    SampleAPI:
+      view: 'SampleAPI'
+      name: 'Sample'
+
+    TextPreProcessing:
+      view: 'TextPreProcessingAPI'
+      name: 'Text+Pre+Processing'
