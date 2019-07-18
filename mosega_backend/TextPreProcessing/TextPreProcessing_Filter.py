@@ -1,9 +1,18 @@
-from TextPreProcessing.models import TextPreProcessingModel
-from TextPreProcessing.TextPreProcessing_Serializer import TextPreProcessingSerializer
-from rest_framework import generics
+
+"""
+This class will handle the Different type of text pre processing methods
+"""
 
 
-class TextAPIRequestFilter(generics.ListAPIView):
-    serializer_class = TextPreProcessingSerializer
+class TextAPIRequestFilter:
+    request = None
+    reading_method = None
+
+    def __init__(self, request, reading_method):
+        self.request  = request
+        self.reading_method = reading_method
+
+
+
 
 
