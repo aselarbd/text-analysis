@@ -28,3 +28,6 @@ logging:
   file: 'mosega-functional.log'
   level: 'logging.INFO'
   format:  '%(levelname)s : %(funcName)s : %(asctime)s : %(message)s'
+
+policyfiles:
+  abs_path: '/home/asela/hiwi/mosega/mosega_backend/PreProcessing/HTML/policies'
