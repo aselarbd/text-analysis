@@ -34,5 +34,7 @@ urlpatterns = [
 
     path('', include('TextPreProcessing.TextPreProcessing_URLs')),
 
+    path('', include('PrivacyPolicy.urls')),
+
     path('admin/', admin.site.urls),
 ]

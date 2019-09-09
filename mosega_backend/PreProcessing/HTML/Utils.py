@@ -9,7 +9,7 @@ import logging
 from mosega_backend.ConfigHandler import *
 
 # Load configs
-configs = ConfigHandler.load_config('../config.yaml')
+configs = ConfigHandler.load_config('config.yaml')
 
 # Logger
 logger = logging.getLogger(__name__)

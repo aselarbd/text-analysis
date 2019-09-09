@@ -8,8 +8,8 @@ import logging
 from mosega_backend.ConfigHandler import *
 
 # Load text processing constants and configs
-text_processing_constants = ConfigHandler.load_config('../TextProcessingConstants.yaml')
-configs = ConfigHandler.load_config('../config.yaml')
+text_processing_constants = ConfigHandler.load_config('TextProcessingConstants.yaml')
+configs = ConfigHandler.load_config('config.yaml')
 
 
 # Logger

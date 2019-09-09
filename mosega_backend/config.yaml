@@ -22,6 +22,10 @@ api:
       view: 'TextPreProcessingAPI'
       name: 'Text+Pre+Processing'
 
+    Policy:
+      view: 'PrivacyPolicyAPI'
+      name: 'PrivacyPolicy'
+
 logging:
   abs_path: '/home/asela/hiwi/mosega/mosega_backend/Log/mosega-functional.log'
   directory: 'Log'

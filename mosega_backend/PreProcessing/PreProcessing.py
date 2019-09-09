@@ -4,7 +4,7 @@ from mosega_backend.ConfigHandler import *
 import re
 
 # Load configs
-configs = ConfigHandler.load_config('../config.yaml')
+configs = ConfigHandler.load_config('config.yaml')
 
 """
 Read policy from URL and returns a string
