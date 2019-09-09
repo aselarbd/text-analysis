@@ -17,13 +17,22 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
 
+from mosega_backend.ConfigHandler import *
+configs = ConfigHandler.load_config('config.yaml')
+
+
 # Get a default view for SWAGGER
 schema_view = get_swagger_view(title='Backend Swagger API')
 
-urlpatterns = [
-    path('api_docs', schema_view),
+Swagger_Path = configs['api']['title'] + '/' + configs['api']['current_version'] + '/' +\
+               configs['api']['documentation'] + '/'
 
-    path('api/v1/sampleAPI/', include('SampleAPI.SampleAPI_URLs')),
+urlpatterns = [
+    path(Swagger_Path, schema_view),
+
+    path('', include('SampleAPI.SampleAPI_URLs')),
+
+    path('', include('TextPreProcessing.TextPreProcessing_URLs')),
 
     path('admin/', admin.site.urls),
 ]
