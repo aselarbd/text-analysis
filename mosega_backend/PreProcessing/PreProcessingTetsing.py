@@ -1,4 +1,4 @@
-from PreProcessing.Preprocessing import read_policy, create_data_structure
+from PreProcessing.PreProcessing import read_policy, create_data_structure, preprocess_pipeline
 from PreProcessing.HTML.Utils import get_policy_from_url, get_file_of_policy_from_url
 
 URL = [
@@ -84,8 +84,11 @@ content of topic 4.4
 content of topic 4.5
 """
 
-data_strut = create_data_structure(sample_policy_format)
+# data_strut = create_data_structure(sample_policy_format)
 
+complete_test = preprocess_pipeline(URL[4])
+
+print(complete_test)
 
 # policy = read_policy(URL[15])
 # print(policy)
