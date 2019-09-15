@@ -1,0 +1,14 @@
+.input{
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 5%;
+}
+
+.custom_button{
+    width: 200px;
+    height: 40px;
+}
+
+.custom_button_content{
+    margin-left: 65%;
+}
