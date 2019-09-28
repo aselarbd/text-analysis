@@ -10,6 +10,8 @@ class addPrivacyPolicy extends Component  {
         url:""
     }
 
+    backend_URL = 'http://127.0.0.1:8000/PrivacyPolicyAPI/api/v1/PrivacyPolicy/'
+
     enablePrivacyPolicy = (url) => {
         this.setState({policyAddable:true})
 
@@ -25,7 +27,7 @@ class addPrivacyPolicy extends Component  {
         const url = this.state.url
         const data = {"url":url}
         //TODO : make the POST call to backend
-        axios.post('http://127.0.0.1:8000/PrivacyPolicyAPI/api/v1/PrivacyPolicy/', data)
+        axios.post(this.backend_URL, data)
             .then(
                 response => {
                     console.log(response)

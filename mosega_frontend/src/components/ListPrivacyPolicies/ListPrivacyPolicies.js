@@ -5,8 +5,8 @@ import axios from 'axios';
 
 class ListPrivacyPolicies extends Component {
 
-    url = 'http://www.mocky.io/v2/5d8d9ce4310000b6032b4f15'
-    // url = 'http://127.0.0.1:8000/PrivacyPolicyAPI/api/v1/PrivacyPolicy/'
+    backend_URL = 'http://www.mocky.io/v2/5d8d9ce4310000b6032b4f15'
+    // backend_URL = 'http://127.0.0.1:8000/PrivacyPolicyAPI/api/v1/PrivacyPolicy/'
 
     state = {
         policies:[]
@@ -15,7 +15,7 @@ class ListPrivacyPolicies extends Component {
     policyList = "";
 
     componentDidMount() {
-        axios.get(this.url)
+        axios.get(this.backend_URL)
             .then( response => {
                 this.setState({policies:response.data});
                 console.log(response);
