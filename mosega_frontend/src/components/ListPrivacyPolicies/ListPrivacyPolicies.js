@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import PrivacyPolicy from './PrivacyPolicy/PrivacyPolicy';
-import { Grid, Segment } from 'semantic-ui-react';
 import Aux from '../../hoc/Aux';
 import axios from 'axios';
 
 class ListPrivacyPolicies extends Component {
+
+    url = 'http://www.mocky.io/v2/5d8d9ce4310000b6032b4f15'
+    // url = 'http://127.0.0.1:8000/PrivacyPolicyAPI/api/v1/PrivacyPolicy/'
 
     state = {
         policies:[]
@@ -13,22 +15,21 @@ class ListPrivacyPolicies extends Component {
     policyList = "";
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/PrivacyPolicyAPI/api/v1/PrivacyPolicy/')
+        axios.get(this.url)
             .then( response => {
                 this.setState({policies:response.data});
                 console.log(response);
 
-                let policies = [...this.state.policies]
+                let policies = [...this.state.policies];
 
                 this.policyList = policies.map(
                     policy =>(
-                        <Grid.Row key={policy.id}>
-                            <Grid.Column>
-                                <Segment>
-                                    <PrivacyPolicy policy ={policy.PrivacyPolicy} key={"PrivacyPolict_"+policy.id}/>
-                                </Segment>
-                            </Grid.Column>
-                        </Grid.Row>
+                            <PrivacyPolicy
+                                policy ={policy.PrivacyPolicy}
+                                key={"PrivacyPolict_"+policy.id}
+                                policyURL={policy.policyurl}
+                                policyTopic = {policy.topic}
+                            />
                     )
                 );
             }
@@ -41,13 +42,7 @@ class ListPrivacyPolicies extends Component {
     render() {
 
         return (
-            <Aux>
-                <Grid padded>
-                {
-                    this.policyList
-                }
-                </Grid>
-            </Aux>
+            <Aux> { this.policyList } </Aux>
         );
 
 
