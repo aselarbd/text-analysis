@@ -6,27 +6,27 @@ from rest_framework import status
 
 from urllib.parse import urlparse
 
-from PrivacyPolicy.serializer import PrivacyPolicySerializer
-from PrivacyPolicy.models import PrivacyPolicyModel
+from TermsAndConditions.serializer import TermsAndConditionsSerializer
+from TermsAndConditions.models import TermsAndConditionsModel
 
-from PreProcessing import PolicyPreProcessing
+from PreProcessing import TermPreProcessing
 
 
-class PrivacyPolicyList(APIView):
+class TermsAndConditionsList(APIView):
 
     def get(self, request):
-        policy = PrivacyPolicyModel.objects.all()
-        serializer = PrivacyPolicySerializer(policy, many=True)
+        term = TermsAndConditionsModel.objects.all()
+        serializer = TermsAndConditionsSerializer(term, many=True)
         return Response(serializer.data)
 
     def post(self, request):
         # TODO Intercept request.data and initiate the text pre processing
-        pre_processed_policy = PolicyPreProcessing.preprocess_pipeline(request.data['url'])
+        pre_processed_term = TermPreProcessing.preprocess_pipeline(request.data['url'])
 
-        policy = {"PrivacyPolicy": pre_processed_policy, "policy_url": request.data['url'],
-                  "policy_heading": urlparse(request.data['url']).hostname.split(".")[1]}
+        term = {"Term": pre_processed_term, "term_url": request.data['url'],
+                "term_heading": urlparse(request.data['url']).hostname.split(".")[1]}
 
-        serializer = PrivacyPolicySerializer(data=policy)
+        serializer = TermsAndConditionsSerializer(data=term)
 
         if serializer.is_valid():
             serializer.save()
@@ -34,10 +34,10 @@ class PrivacyPolicyList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PrivacyPolicyDetails(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
-    queryset = PrivacyPolicyModel.objects.all()
-    serializer_class = PrivacyPolicySerializer
+class TermsAndConditionsDetails(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                                generics.GenericAPIView):
+    queryset = TermsAndConditionsModel.objects.all()
+    serializer_class = TermsAndConditionsSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

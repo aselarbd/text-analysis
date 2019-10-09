@@ -1,5 +1,5 @@
-from PreProcessing.PreProcessing import read_policy, create_data_structure, preprocess_pipeline
-from PreProcessing.HTML.Utils import get_policy_from_url, get_file_of_policy_from_url
+from PreProcessing.PolicyPreProcessing import read_policy, create_data_structure, preprocess_pipeline
+from PreProcessing.HTML.Utils import get_cleaned_content_from_url, get_written_file_name_from_url
 
 URL = [
     'https://global.canon/en/privacy/',

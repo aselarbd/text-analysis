@@ -26,6 +26,10 @@ api:
       view: 'PrivacyPolicyAPI'
       name: 'PrivacyPolicy'
 
+    Term:
+      view: 'TermsAndConditionsAPI'
+      name: 'Terms+And+Conditions'
+
 logging:
   abs_path: '/home/asela/hiwi/mosega/mosega_backend/Log/mosega-functional.log'
   directory: 'Log'
@@ -35,3 +39,7 @@ logging:
 
 policyfiles:
   abs_path: '/home/asela/hiwi/mosega/mosega_backend/PreProcessing/HTML/policies'
+
+termfiles:
+  abs_path: '/home/asela/hiwi/mosega/mosega_backend/PreProcessing/HTML/terms'
+

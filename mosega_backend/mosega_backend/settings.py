@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'SampleAPI',
     'TextPreProcessing',
     'PrivacyPolicy',
+    'TermsAndConditions',
 
 
     # Frameworks

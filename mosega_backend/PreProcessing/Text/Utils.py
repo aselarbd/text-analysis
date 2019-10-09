@@ -21,7 +21,7 @@ log_format = configs['logging']['format']
 logging.basicConfig(filename=os.path.abspath(log_file_path), level=logging.INFO, format=log_format)
 
 
-def read_file(path):
+def read_file(path, file_type):
     """
     This function will read given file in file path and return the privacy policy part.
 
@@ -32,14 +32,19 @@ def read_file(path):
     msg = 'Read the file : ' + path
     logger.info(msg)
 
-    # Predefined identification terms of privacy policy
-    identification_terms = text_processing_constants['policy']['identification']
+    identification_terms = None
+
+    # Predefined identification terms of policy / terms
+    if file_type == "policy":
+        identification_terms = text_processing_constants['policy']['identification']
+    elif file_type == "term":
+        identification_terms = text_processing_constants['term']['identification']
 
     # Boolean value to check identification terms found
     is_identification_terms_found = False
 
     # Temporary variable to store newly processed file after cross check with identification terms
-    processed_file = open("temp_policy.txt", "w+")
+    processed_file = open("temp.txt", "w+")
 
     given_file = open(path, 'r')
     for line in given_file:
@@ -57,8 +62,8 @@ def read_file(path):
 
     processed_file.close()
 
-    read_policy = open("temp_policy.txt", "r")
-    os.remove("temp_policy.txt")
+    read_policy = open("temp.txt", "r")
+    os.remove("temp.txt")
 
     return read_policy.read()
 

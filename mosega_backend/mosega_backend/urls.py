@@ -36,5 +36,7 @@ urlpatterns = [
 
     path('', include('PrivacyPolicy.urls')),
 
+    path('', include('TermsAndConditions.urls')),
+
     path('admin/', admin.site.urls),
 ]

@@ -9,3 +9,5 @@ class PrivacyPolicyModel(models.Model):
     PrivacyPolicy = jsonfield.JSONField()
     id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    policy_url = models.CharField(max_length=3000, default="")
+    policy_heading = models.CharField(max_length=1000, default="")

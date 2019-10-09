@@ -1,6 +1,7 @@
 import requests
 import os
 import io
+import re
 from bs4 import BeautifulSoup
 import html2text
 from lxml.html.clean import Cleaner
@@ -24,7 +25,7 @@ Function to extract privacy policies from given URL
 """
 
 
-def get_policy_from_url(url):
+def get_cleaned_content_from_url(url):
     response = requests.get(url)
     response.encoding = 'utf-8'
 
@@ -64,17 +65,23 @@ def get_policy_from_url(url):
 
 
 """
-Function to write given policies to a file
+Function to write given policies / terms to a file
 """
 
 
-def write_policy_to_file(name, policy_to_write):
-    base_path_policy_files = configs['policyfiles']['abs_path']
-    filename = "%s/%s.txt" % (base_path_policy_files, name)
+def write_to_file(name, content, url_type):
+    base_file_path = ""
+
+    if url_type == "policy":
+        base_file_path = configs['policyfiles']['abs_path']
+    elif url_type == "term":
+        base_file_path = configs['termfiles']['abs_path']
+
+    filename = "%s/%s.txt" % (base_file_path, name)
 
     with io.open(filename, mode="w", encoding="utf-8") as f:
         try:
-            f.write(policy_to_write)
+            f.write(content)
 
             msg = "file wrote successfully"
             logger.info(msg)
@@ -85,12 +92,60 @@ def write_policy_to_file(name, policy_to_write):
 
 
 """
-Function to get policy from URL => write a file and return the file name
+Function to get policy/ term from URL => write a file and return the file name
 """
 
 
-def get_file_of_policy_from_url(html_url):
-    filename, policy_string = get_policy_from_url(html_url)
-    write_policy_to_file(filename, policy_string)
+def get_written_file_name_from_url(html_url, url_type):
+    filename, content = get_cleaned_content_from_url(html_url)
+    write_to_file(filename, content, url_type)
 
     return filename
+
+
+"""
+Function to create data structure
+"""
+
+
+def create_data_structure(unstructured_string):
+    lines = unstructured_string.split("\n")
+    patten = re.compile("#")
+
+    data_structure = {}
+
+    heading_list = list(filter(patten.match, lines))
+    no_of_headings = len(heading_list)
+
+    no_of_hash_list = [0] * no_of_headings
+    heading_start_index = [0] * no_of_headings
+    heading_end_index = [0] * no_of_headings
+
+    for i in range(no_of_headings):
+        no_of_hash_list[i] = heading_list[i].count('#')
+        heading_start_index[i] = lines.index(heading_list[i])
+
+        normalize = no_of_hash_list[i] - no_of_hash_list[0] + 1
+        if normalize < 0:
+            no_of_hash_list[i] = 0
+        else:
+            no_of_hash_list[i] = normalize
+
+    for i in range(no_of_headings - 1):
+        heading_end_index[i] = heading_start_index[i + 1] - 1
+
+    heading_end_index[-1] = len(lines) - 1
+
+    # TODO : Need to improve with nested levels
+
+    data_structure['heading'] = heading_list[0][heading_list[0].count('#'):].strip()
+    data_structure['text'] = ''.join(lines[heading_start_index[0] + 1:heading_end_index[0]])
+    data_structure['content'] = []
+
+    for i in range(1, no_of_headings):
+        temp = {'heading': heading_list[i][heading_list[i].count('#'):].strip(),
+                'text': ''.join(lines[heading_start_index[i] + 1:heading_end_index[i]]),
+                'content': []}
+        data_structure['content'].append(temp)
+
+    return data_structure
