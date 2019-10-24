@@ -12,6 +12,9 @@ from mosega_backend.ConfigHandler import *
 # Load configs
 configs = ConfigHandler.load_config('config.yaml')
 
+# PreProcessing Testing
+# configs = ConfigHandler.load_config('../config.yaml')
+
 # Logger
 logger = logging.getLogger(__name__)
 log_file_path = configs['logging']['abs_path']
@@ -108,6 +111,9 @@ Function to create data structure
 """
 
 
+
+
+
 def create_data_structure(unstructured_string):
     lines = unstructured_string.split("\n")
     patten = re.compile("#")
@@ -116,6 +122,12 @@ def create_data_structure(unstructured_string):
 
     heading_list = list(filter(patten.match, lines))
     no_of_headings = len(heading_list)
+
+    position_tracker = [0] * 10
+
+    element_count = 0
+    position_holder = 'content'
+
 
     no_of_hash_list = [0] * no_of_headings
     heading_start_index = [0] * no_of_headings
@@ -136,16 +148,47 @@ def create_data_structure(unstructured_string):
 
     heading_end_index[-1] = len(lines) - 1
 
-    # TODO : Need to improve with nested levels
+    for heading in heading_list:
+        no_of_hash = heading.count('#')
 
-    data_structure['heading'] = heading_list[0][heading_list[0].count('#'):].strip()
-    data_structure['text'] = ''.join(lines[heading_start_index[0] + 1:heading_end_index[0]])
-    data_structure['content'] = []
+        position_tracker[no_of_hash - 1] += 1
+        add_zeros_to_left_of_list(position_tracker, no_of_hash)
 
-    for i in range(1, no_of_headings):
-        temp = {'heading': heading_list[i][heading_list[i].count('#'):].strip(),
-                'text': ''.join(lines[heading_start_index[i] + 1:heading_end_index[i]]),
-                'content': []}
-        data_structure['content'].append(temp)
+        if element_count == 0:
+            data_structure['heading'] = heading_list[0][heading_list[0].count('#'):].strip()
+            data_structure['text'] = ''.join(lines[heading_start_index[0] + 1:heading_end_index[0]])
+            data_structure['content'] = []
+            element_count += 1
+        else:
+
+            inner_json = {
+                'heading': heading_list[element_count][heading_list[element_count].count('#'):].strip(),
+                'text': ''.join(lines[heading_start_index[element_count] + 1:heading_end_index[element_count]]),
+                'content': []
+            }
+            element_count += 1
+
+            filling_level = get_filling_level(position_tracker)
+
+            # TODO More testing and improve for more levels
+
+            if filling_level == 1:
+                data_structure[position_holder].append(inner_json)
+            elif filling_level == 2:
+                data_structure[position_holder][position_tracker[filling_level-1]-1][position_holder].append(inner_json)
+            elif filling_level == 3:
+                data_structure[position_holder][position_tracker[filling_level-2]-1][position_holder][position_tracker[filling_level - 1] - 1][position_holder].append(
+                    inner_json)
 
     return data_structure
+
+
+def add_zeros_to_left_of_list(position_list, position):
+    for i in range(len(position_list)):
+        if i >= position:
+            position_list[i] = 0
+
+def get_filling_level(position_tracker):
+    for i in range(len(position_tracker)):
+        if position_tracker[i] == 0:
+            return i -1

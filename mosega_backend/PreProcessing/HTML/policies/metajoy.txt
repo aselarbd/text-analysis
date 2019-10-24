@@ -55,8 +55,9 @@ to increase our Services’ functionality and user-friendliness, and to better
 tailor our Services to our visitors’ needs. We also use this information to
 verify that visitors to the Services meet the criteria required to process
 their requests. Accordingly, Log Data is shared with GameAnalytics , which has
-its own privacy policy (accessible at http://www.gameanalytics.com/privacy)
-addressing how GameAnalytics uses such information.
+its own privacy policy (accessible at [ http://www.gameanalytics.com/privacy
+](http://www.gameanalytics.com/privacy) ) addressing how GameAnalytics uses
+such information.
 
 ###  Location Information
 
@@ -205,4 +206,37 @@ changes.
 
 Please contact us at help@metajoy.io if you have any questions about our
 Privacy Policy.
+
+###  Here's a link to our partner privacy policy
+
+[ https://www.mopub.com/legal/privacy ](https://www.mopub.com/legal/privacy)
+
+[ https://policies.google.com/privacy ](https://policies.google.com/privacy)
+
+[ https://unity3d.com/legal/privacy-policy
+](https://unity3d.com/legal/privacy-policy)
+
+[ https://www.applovin.com/privacy ](https://www.applovin.com/privacy)
+
+[ http://www.ironsrc.com/wp-content/uploads/2019/03/ironSource-Privacy-
+Policy.pdf ](http://www.ironsrc.com/wp-content/uploads/2019/03/ironSource-
+Privacy-Policy.pdf)
+
+[ https://www.tapjoy.com/legal/#privacy-policy
+](https://www.tapjoy.com/legal/#privacy-policy)
+
+[ https://www.mintegral.com/en/privacy ](https://www.mintegral.com/en/privacy)
+
+[ https://vungle.com/privacy ](https://vungle.com/privacy)
+
+[ https://www.adcolony.com/privacy-policy ](https://www.adcolony.com/privacy-
+policy)
+
+[ https://www.inmobi.com/privacy-policy ](https://www.inmobi.com/privacy-
+policy)
+
+[ https://www.tenjin.io/privacy ](https://www.tenjin.io/privacy)
+
+[ https://soomla.com/privacy-policy.html ](https://soomla.com/privacy-
+policy.html)
 

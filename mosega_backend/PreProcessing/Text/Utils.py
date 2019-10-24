@@ -11,6 +11,10 @@ from mosega_backend.ConfigHandler import *
 text_processing_constants = ConfigHandler.load_config('TextProcessingConstants.yaml')
 configs = ConfigHandler.load_config('config.yaml')
 
+# PreProcessing Testing
+# text_processing_constants = ConfigHandler.load_config('../TextProcessingConstants.yaml')
+# configs = ConfigHandler.load_config('../config.yaml')
+
 
 # Logger
 logger = logging.getLogger(__name__)

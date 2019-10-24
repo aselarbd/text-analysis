@@ -84,11 +84,11 @@ content of topic 4.4
 content of topic 4.5
 """
 
-# data_strut = create_data_structure(sample_policy_format)
+data_strut = create_data_structure(sample_policy_format)
 
-complete_test = preprocess_pipeline(URL[4])
+# complete_test = preprocess_pipeline(URL[4])
 
-print(complete_test)
+# print(complete_test)
 
 # policy = read_policy(URL[15])
 # print(policy)
