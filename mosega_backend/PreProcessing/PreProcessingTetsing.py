@@ -24,7 +24,7 @@ URL = [
     'https://www.blizzard.com/en-us/legal/a4380ee5-5c8d-4e3b-83b7-ea26d01a9918/blizzard-entertainment-online-privacy'
     '-policy ',
     'https://www.bodyfast.de/privacy',
-    'https://www.boomerangtv.co.uk/#',
+    'https://www.boomerangtv.co.uk/privacy',
     'https://www.bundesliga.com/en/bundesliga/info/privacy-statement',
     'https://www.busuu.com/en/privacy',
     'https://about.canva.com/privacy-policy/',
