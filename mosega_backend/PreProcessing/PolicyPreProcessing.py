@@ -17,7 +17,7 @@ Read policy from URL and returns a string
 def read_policy(url):
     filename = get_written_file_name_from_url(url, "policy")
 
-    base_path_policy_files = configs['policyfiles']['abs_path']
+    base_path_policy_files = configs['policyfiles']['path']
     filepath = "%s/%s.txt" % (base_path_policy_files, filename)
 
     return read_file(filepath, "policy")

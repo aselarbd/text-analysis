@@ -18,7 +18,7 @@ configs = ConfigHandler.load_config('config.yaml')
 
 # Logger
 logger = logging.getLogger(__name__)
-log_file_path = configs['logging']['abs_path']
+log_file_path = configs['logging']['path']
 log_level = configs['logging']['level']
 log_format = configs['logging']['format']
 

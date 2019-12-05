@@ -17,7 +17,7 @@ configs = ConfigHandler.load_config('config.yaml')
 
 # Logger
 logger = logging.getLogger(__name__)
-log_file_path = configs['logging']['abs_path']
+log_file_path = configs['logging']['path']
 log_level = configs['logging']['level']
 log_format = configs['logging']['format']
 
@@ -76,9 +76,9 @@ def write_to_file(name, content, url_type):
     base_file_path = ""
 
     if url_type == "policy":
-        base_file_path = configs['policyfiles']['abs_path']
+        base_file_path = configs['policyfiles']['path']
     elif url_type == "term":
-        base_file_path = configs['termfiles']['abs_path']
+        base_file_path = configs['termfiles']['path']
 
     filename = "%s/%s.txt" % (base_file_path, name)
 
