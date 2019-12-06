@@ -11,3 +11,4 @@ class PrivacyPolicyModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     policy_url = models.CharField(max_length=3000, default="")
     policy_heading = models.CharField(max_length=1000, default="")
+    type= models.CharField(max_length=100, default="")
