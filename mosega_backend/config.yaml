@@ -31,15 +31,15 @@ api:
       name: 'Terms+And+Conditions'
 
 logging:
-  abs_path: '/home/asela/hiwi/mosega/mosega_backend/Log/mosega-functional.log'
+  path: 'Log/mosega-functional.log'
   directory: 'Log'
   file: 'mosega-functional.log'
   level: 'logging.INFO'
   format:  '%(levelname)s : %(funcName)s : %(asctime)s : %(message)s'
 
 policyfiles:
-  abs_path: '/home/asela/hiwi/mosega/mosega_backend/PreProcessing/HTML/policies'
+  path: 'PreProcessing/HTML/policies'
 
 termfiles:
-  abs_path: '/home/asela/hiwi/mosega/mosega_backend/PreProcessing/HTML/terms'
+  path: 'PreProcessing/HTML/terms'
 

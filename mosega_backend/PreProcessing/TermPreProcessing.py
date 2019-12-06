@@ -14,7 +14,7 @@ Read policy from URL and returns a string
 def read_term(url):
     filename = get_written_file_name_from_url(url, "term")
 
-    base_path_policy_files = configs['termfiles']['abs_path']
+    base_path_policy_files = configs['termfiles']['path']
     filepath = "%s/%s.txt" % (base_path_policy_files, filename)
 
     return read_file(filepath, "term")
