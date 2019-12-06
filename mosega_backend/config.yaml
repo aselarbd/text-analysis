@@ -20,7 +20,7 @@ api:
 
     TextPreProcessing:
       view: 'TextPreProcessingAPI'
-      name: 'Text+Pre+Processing'
+      name: 'Text+Pre+ProcessingAPI'
 
     Policy:
       view: 'PrivacyPolicyAPI'
@@ -29,6 +29,10 @@ api:
     Term:
       view: 'TermsAndConditionsAPI'
       name: 'Terms+And+Conditions'
+
+    Processing:
+      view: 'ProcessingAPI'
+      name: 'processing'
 
 logging:
   path: 'Log/mosega-functional.log'
