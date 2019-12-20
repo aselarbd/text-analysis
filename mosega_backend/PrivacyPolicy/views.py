@@ -23,8 +23,12 @@ class PrivacyPolicyList(APIView):
         # TODO Intercept request.data and initiate the text pre processing
         pre_processed_policy = PolicyPreProcessing.preprocess_pipeline(request.data['url'])
 
-        policy = {"PrivacyPolicy": pre_processed_policy, "policy_url": request.data['url'],
-                  "policy_heading": urlparse(request.data['url']).hostname.split(".")[1]}
+        policy = {
+            "PrivacyPolicy": pre_processed_policy,
+            "type": "privacyPolicy",
+            "policy_url": request.data['url'],
+            "policy_heading": urlparse(request.data['url']).hostname.split(".")[1]
+        }
 
         serializer = PrivacyPolicySerializer(data=policy)
 

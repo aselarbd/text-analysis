@@ -6,4 +6,4 @@ from PrivacyPolicy.models import PrivacyPolicyModel
 class PrivacyPolicySerializer(serializers.ModelSerializer):
     class Meta:
         model = PrivacyPolicyModel
-        fields = ['PrivacyPolicy', 'created_at', 'id', 'policy_url', 'policy_heading']
+        fields = ['PrivacyPolicy', 'created_at', 'id', 'policy_url', 'policy_heading', 'type']

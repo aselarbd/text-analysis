@@ -38,5 +38,7 @@ urlpatterns = [
 
     path('', include('TermsAndConditions.urls')),
 
+    path('', include('ProcessingAPI.urls')),
+
     path('admin/', admin.site.urls),
 ]
