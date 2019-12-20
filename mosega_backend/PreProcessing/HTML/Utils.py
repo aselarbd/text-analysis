@@ -1,37 +1,29 @@
 import requests
-import os
 import io
-import re
 from bs4 import BeautifulSoup
 import html2text
 from lxml.html.clean import Cleaner
 from urllib.parse import urlparse
 import logging
-from mosega_backend.ConfigHandler import *
-
-# Load configs
-configs = ConfigHandler.load_config('config.yaml')
-
-# PreProcessing Testing
-# configs = ConfigHandler.load_config('../config.yaml')
-
-# Logger
-logger = logging.getLogger(__name__)
-log_file_path = configs['logging']['path']
-log_level = configs['logging']['level']
-log_format = configs['logging']['format']
-
-logging.basicConfig(filename=os.path.abspath(log_file_path), level=logging.INFO, format=log_format)
-
-"""
-Function to extract privacy policies from given URL 
-"""
+import Shared.SharedFunctions as functions
+import Shared.LogSetup as logSetup
 
 
-def get_cleaned_content_from_url(url):
+configs = functions.loadConfigs()
+logSetup.setupLog()
+
+LOGGER = logging.getLogger(__name__)
+
+
+def cleanTags(url):
+    """
+    Clean HTML Tags of given URL
+
+    @param url: URL that object contains
+    @return: name and formatted text of URL
+    """
     response = requests.get(url)
     response.encoding = 'utf-8'
-
     name = urlparse(response.request.url).hostname.split(".")[1]
 
     # Clean HTML page
@@ -54,141 +46,51 @@ def get_cleaned_content_from_url(url):
     # Isolate body
     body = soup.body
 
-    text_maker = html2text.HTML2Text()
-    text_maker.ignore_links = True
-    text_maker.ignore_images = True
-    text_maker.drop_white_space = True
+    textMaker = html2text.HTML2Text()
+    textMaker.ignore_links = True
+    textMaker.ignore_images = True
+    textMaker.drop_white_space = True
 
-    formatted_text = html2text.html2text(body.prettify())
+    formattedText = html2text.html2text(body.prettify())
 
-    msg = "HTML file cleaned"
-    logger.info(msg)
+    LOGGER.debug("HTML file cleaned : "+url)
 
-    return name, formatted_text
-
-
-"""
-Function to write given policies / terms to a file
-"""
+    return name, formattedText
 
 
-def write_to_file(name, content, url_type):
-    base_file_path = ""
+def createFile(fileName, content, fileType):
+    """
+    write given content to given file
 
-    if url_type == "policy":
-        base_file_path = configs['policyfiles']['path']
-    elif url_type == "term":
-        base_file_path = configs['termfiles']['path']
+    @param fileName: file name of file that need to create
+    @param content: content of given file
+    @param fileType: file type policy or terms
+    """
+    path = ""
 
-    filename = "%s/%s.txt" % (base_file_path, name)
+    if fileType == "policy":
+        path = configs['policyFiles']['path']
+    elif fileType == "term":
+        path = configs['termFiles']['path']
 
-    with io.open(filename, mode="w", encoding="utf-8") as f:
+    filePath = path + "/" + fileName + ".txt"
+
+    with io.open(filePath, mode="w", encoding="utf-8") as f:
         try:
             f.write(content)
-
-            msg = "file wrote successfully"
-            logger.info(msg)
-        except:
-
-            msg = "Error while writing file"
-            logger.info(msg)
+            LOGGER.debug("cleaned HTML was wrote a file : "+fileName)
+        except IOError:
+            LOGGER.debug("Error while writing the cleaned HTML to a file : "+fileName)
 
 
-"""
-Function to get policy/ term from URL => write a file and return the file name
-"""
+def getFileName(url, fileType):
+    """
+    given url is formatted by removing HTML tags and saved to a file  and return saved file name
 
-
-def get_written_file_name_from_url(html_url, url_type):
-    filename, content = get_cleaned_content_from_url(html_url)
-    write_to_file(filename, content, url_type)
-
-    return filename
-
-
-"""
-Function to create data structure
-"""
-
-
-
-
-
-def create_data_structure(unstructured_string):
-    lines = unstructured_string.split("\n")
-    patten = re.compile("#")
-
-    data_structure = {}
-
-    heading_list = list(filter(patten.match, lines))
-    no_of_headings = len(heading_list)
-
-    position_tracker = [0] * 10
-
-    element_count = 0
-    position_holder = 'content'
-
-
-    no_of_hash_list = [0] * no_of_headings
-    heading_start_index = [0] * no_of_headings
-    heading_end_index = [0] * no_of_headings
-
-    for i in range(no_of_headings):
-        no_of_hash_list[i] = heading_list[i].count('#')
-        heading_start_index[i] = lines.index(heading_list[i])
-
-        normalize = no_of_hash_list[i] - no_of_hash_list[0] + 1
-        if normalize < 0:
-            no_of_hash_list[i] = 0
-        else:
-            no_of_hash_list[i] = normalize
-
-    for i in range(no_of_headings - 1):
-        heading_end_index[i] = heading_start_index[i + 1] - 1
-
-    heading_end_index[-1] = len(lines) - 1
-
-    for heading in heading_list:
-        no_of_hash = heading.count('#')
-
-        position_tracker[no_of_hash - 1] += 1
-        add_zeros_to_left_of_list(position_tracker, no_of_hash)
-
-        if element_count == 0:
-            data_structure['heading'] = heading_list[0][heading_list[0].count('#'):].strip()
-            data_structure['text'] = ''.join(lines[heading_start_index[0] + 1:heading_end_index[0]])
-            data_structure['content'] = []
-            element_count += 1
-        else:
-
-            inner_json = {
-                'heading': heading_list[element_count][heading_list[element_count].count('#'):].strip(),
-                'text': ''.join(lines[heading_start_index[element_count] + 1:heading_end_index[element_count]]),
-                'content': []
-            }
-            element_count += 1
-
-            filling_level = get_filling_level(position_tracker)
-
-            # TODO More testing and improve for more levels
-
-            if filling_level == 1:
-                data_structure[position_holder].append(inner_json)
-            elif filling_level == 2:
-                data_structure[position_holder][position_tracker[filling_level-1]-1][position_holder].append(inner_json)
-            elif filling_level == 3:
-                data_structure[position_holder][position_tracker[filling_level-2]-1][position_holder][position_tracker[filling_level - 1] - 1][position_holder].append(
-                    inner_json)
-
-    return data_structure
-
-
-def add_zeros_to_left_of_list(position_list, position):
-    for i in range(len(position_list)):
-        if i >= position:
-            position_list[i] = 0
-
-def get_filling_level(position_tracker):
-    for i in range(len(position_tracker)):
-        if position_tracker[i] == 0:
-            return i -1
+    @param url: URL that need to retrieve data
+    @param fileType: type of file policy or term
+    @return: name of saved file
+    """
+    fileName, content = cleanTags(url)
+    createFile(fileName, content, fileType)
+    return fileName

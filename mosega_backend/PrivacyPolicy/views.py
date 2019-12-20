@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 from PrivacyPolicy.serializer import PrivacyPolicySerializer
 from PrivacyPolicy.models import PrivacyPolicyModel
 
-from PreProcessing import PolicyPreProcessing
+from PreProcessing import PreProcessing
 
 
 class PrivacyPolicyList(APIView):
@@ -20,8 +20,7 @@ class PrivacyPolicyList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        # TODO Intercept request.data and initiate the text pre processing
-        pre_processed_policy = PolicyPreProcessing.preprocess_pipeline(request.data['url'])
+        pre_processed_policy = PreProcessing.getPolicy(request.data['url'])
 
         policy = {"PrivacyPolicy": pre_processed_policy, "policy_url": request.data['url'],
                   "policy_heading": urlparse(request.data['url']).hostname.split(".")[1]}

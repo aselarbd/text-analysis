@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Own Apps
-    'SampleAPI',
-    'TextPreProcessing',
     'PrivacyPolicy',
     'TermsAndConditions',
 

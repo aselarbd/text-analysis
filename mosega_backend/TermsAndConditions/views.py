@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 from TermsAndConditions.serializer import TermsAndConditionsSerializer
 from TermsAndConditions.models import TermsAndConditionsModel
 
-from PreProcessing import TermPreProcessing
+from PreProcessing import PreProcessing
 
 
 class TermsAndConditionsList(APIView):
@@ -20,8 +20,7 @@ class TermsAndConditionsList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        # TODO Intercept request.data and initiate the text pre processing
-        pre_processed_term = TermPreProcessing.preprocess_pipeline(request.data['url'])
+        pre_processed_term = PreProcessing.getTerm(request.data['url'])
 
         term = {"Term": pre_processed_term, "term_url": request.data['url'],
                 "term_heading": urlparse(request.data['url']).hostname.split(".")[1]}

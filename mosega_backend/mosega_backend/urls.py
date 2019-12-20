@@ -30,10 +30,6 @@ Swagger_Path = configs['api']['title'] + '/' + configs['api']['current_version']
 urlpatterns = [
     path(Swagger_Path, schema_view),
 
-    path('', include('SampleAPI.SampleAPI_URLs')),
-
-    path('', include('TextPreProcessing.TextPreProcessing_URLs')),
-
     path('', include('PrivacyPolicy.urls')),
 
     path('', include('TermsAndConditions.urls')),
