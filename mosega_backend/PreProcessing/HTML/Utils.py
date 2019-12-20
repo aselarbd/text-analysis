@@ -1,5 +1,6 @@
 import requests
 import io
+import re
 from bs4 import BeautifulSoup
 import html2text
 from lxml.html.clean import Cleaner
@@ -52,6 +53,17 @@ def cleanTags(url):
     textMaker.drop_white_space = True
 
     formattedText = html2text.html2text(body.prettify())
+
+    formattedText = re.sub('[*][*]$', "", formattedText)
+    formattedText = re.sub('^[*][*]\d[\\][.]', "## ", formattedText)
+    formattedText = re.sub('^[*]\d[\\][.]', "## ", formattedText)
+    formattedText = re.sub('[1-9].[1-9].', "## ", formattedText)
+    formattedText = re.sub('[1-9].', "# ", formattedText)
+    formattedText = re.sub('[(]\S[)]', "## ", formattedText)
+    formattedText = re.sub('^[-]', "## ", formattedText)
+    formattedText = re.sub('^[*][*]', "## ", formattedText)
+    formattedText = re.sub('^[*][*]\D[.][*][*]', "## ", formattedText)
+    formattedText = re.sub('[*]\s[\d][\\][.]', "## ", formattedText)
 
     LOGGER.debug("HTML file cleaned : "+url)
 
