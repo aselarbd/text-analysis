@@ -1,76 +1,54 @@
-"""
-This File contains the text file reading methods
-"""
 import os
-
 import re
 import logging
-from mosega_backend.ConfigHandler import *
+import Shared.SharedFunctions as functions
+import Shared.LogSetup as logSetup
 
-# Load text processing constants and configs
-text_processing_constants = ConfigHandler.load_config('TextProcessingConstants.yaml')
-configs = ConfigHandler.load_config('config.yaml')
+configs = functions.loadConfigs()
+identificationTerms = functions.loadIdentificationTerms()
+logSetup.setupLog()
 
-# PreProcessing Testing
-# text_processing_constants = ConfigHandler.load_config('../TextProcessingConstants.yaml')
-# configs = ConfigHandler.load_config('../config.yaml')
-
-
-# Logger
-logger = logging.getLogger(__name__)
-log_file_path = configs['logging']['path']
-log_level = configs['logging']['level']
-log_format = configs['logging']['format']
-
-logging.basicConfig(filename=os.path.abspath(log_file_path), level=logging.INFO, format=log_format)
+LOGGER = logging.getLogger(__name__)
 
 
-def read_file(path, file_type):
+def readFile(path, fileType):
     """
-    This function will read given file in file path and return the privacy policy part.
+    This function will read given file in file path and return the privacy policy / terms of conditions part.
 
-    :param path: file path
     :return: policy text
+    @param path: path of the file
+    @param fileType: type of the file policy or terms of conditions
     """
 
-    msg = 'Read the file : ' + path
-    logger.info(msg)
+    idTerms = None
 
-    identification_terms = None
-
-    # Predefined identification terms of policy / terms
-    if file_type == "policy":
-        identification_terms = text_processing_constants['policy']['identification']
-    elif file_type == "term":
-        identification_terms = text_processing_constants['term']['identification']
+    # Predefined identification of policy / terms
+    if fileType == "policy":
+        idTerms = identificationTerms['policy']['identification']
+    elif fileType == "term":
+        idTerms = identificationTerms['term']['identification']
 
     # Boolean value to check identification terms found
-    is_identification_terms_found = False
+    idTermFound = False
 
     # Temporary variable to store newly processed file after cross check with identification terms
-    processed_file = open("temp.txt", "w+")
+    temporaryFile = open("temp.txt", "w+")
 
     given_file = open(path, 'r')
     for line in given_file:
 
-        if is_identification_terms_found:
-            processed_file.write(line + '\n')
+        if idTermFound:
+            temporaryFile.write(line + '\n')
         else:
+            if re.compile('|'.join(idTerms), re.IGNORECASE).search(line):
+                idTermFound = True
+                temporaryFile.write(line + '\n')
+                LOGGER.debug('Identification words found')
 
-            if re.compile('|'.join(identification_terms), re.IGNORECASE).search(line):
-                is_identification_terms_found = True
-                processed_file.write(line + '\n')
+    temporaryFile.close()
 
-                msg = 'Identification words found'
-                logger.info(msg)
+    LOGGER.debug("Read the" + fileType + " file : " + path)
 
-    processed_file.close()
-
-    read_policy = open("temp.txt", "r")
+    selectedFile = open("temp.txt", "r")
     os.remove("temp.txt")
-
-    return read_policy.read()
-
-
-
-
+    return selectedFile.read()

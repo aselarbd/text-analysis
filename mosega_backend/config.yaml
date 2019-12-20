@@ -38,12 +38,11 @@ logging:
   path: 'Log/mosega-functional.log'
   directory: 'Log'
   file: 'mosega-functional.log'
-  level: 'logging.INFO'
   format:  '%(levelname)s : %(funcName)s : %(asctime)s : %(message)s'
 
-policyfiles:
+policyFiles:
   path: 'PreProcessing/HTML/policies'
 
-termfiles:
+termFiles:
   path: 'PreProcessing/HTML/terms'
 
