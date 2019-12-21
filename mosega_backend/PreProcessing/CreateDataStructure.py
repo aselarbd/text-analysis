@@ -84,6 +84,12 @@ def get_filling_level(position_tracker):
 
 
 def createDataStructure(unorderedData):
+    """
+    This function create structured, flat data structure for further processing
+
+    @param unorderedData: unordered data
+    @return: ordered flat data
+    """
     orderedData = []
     splitData = unorderedData.split("\n")
     pattern = re.compile("^#")
