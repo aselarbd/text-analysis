@@ -1,5 +1,5 @@
 from PreProcessing.PreProcessing import readURL, startPipeline
-from PreProcessing.CreateDataStracure import create_data_structure
+from PreProcessing.CreateDataStructure import create_data_structure
 from PreProcessing.HTML.Utils import cleanTags, getFileName
 
 URL = [

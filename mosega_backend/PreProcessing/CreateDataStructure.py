@@ -61,9 +61,11 @@ def create_data_structure(unstructured_string):
             if filling_level == 1:
                 data_structure[position_holder].append(inner_json)
             elif filling_level == 2:
-                data_structure[position_holder][position_tracker[filling_level-1]-1][position_holder].append(inner_json)
+                data_structure[position_holder][position_tracker[filling_level - 1] - 1][position_holder].append(
+                    inner_json)
             elif filling_level == 3:
-                data_structure[position_holder][position_tracker[filling_level-2]-1][position_holder][position_tracker[filling_level - 1] - 1][position_holder].append(
+                data_structure[position_holder][position_tracker[filling_level - 2] - 1][position_holder][
+                    position_tracker[filling_level - 1] - 1][position_holder].append(
                     inner_json)
 
     return data_structure
@@ -76,6 +78,34 @@ def add_zeros_to_left_of_list(position_list, position):
 
 
 def get_filling_level(position_tracker):
-    for i in range(len(position_tracker)):
+    for i in range(len(position_tracker)):  ###
         if position_tracker[i] == 0:
-            return i -1
+            return i - 1
+
+
+def createDataStructure(unorderedData):
+    orderedData = []
+    splitData = unorderedData.split("\n")
+    pattern = re.compile("^#")
+
+    headings = list(filter(pattern.match, splitData))
+    noOfHeadings = len(headings)
+
+    headingIndex = [[0 for x in range(2)] for y in range(noOfHeadings)]
+
+    for i in range(noOfHeadings):
+        if i == noOfHeadings - 1:
+            headingIndex[i][0] = splitData.index(headings[i])
+            headingIndex[i][1] = len(splitData) - 1
+        else:
+            headingIndex[i][0] = splitData.index(headings[i])
+            headingIndex[i][1] = splitData.index(headings[i + 1]) - 1
+
+    for heading in headings:
+        index = headings.index(heading)
+        json = {
+            "heading": str(heading).replace("#","").lstrip(),
+            "text": ''.join(splitData[headingIndex[index][0] + 1: headingIndex[index][1]])
+        }
+        orderedData.append(json)
+    return orderedData
