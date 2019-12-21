@@ -20,10 +20,10 @@ class PrivacyPolicyList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        pre_processed_policy = PreProcessing.getPolicy(request.data['url'])
+        policy = PreProcessing.getPolicy(request.data['url'])
 
         policy = {
-            "PrivacyPolicy": pre_processed_policy,
+            "PrivacyPolicy": policy,
             "type": "privacyPolicy",
             "policy_url": request.data['url'],
             "policy_heading": urlparse(request.data['url']).hostname.split(".")[1]

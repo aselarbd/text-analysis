@@ -1,5 +1,5 @@
 from PreProcessing.HTML.Utils import getFileName
-from PreProcessing.CreateDataStracure import create_data_structure
+from PreProcessing.CreateDataStructure import create_data_structure, createDataStructure
 from PreProcessing.Text.Utils import readFile
 import os
 import Shared.SharedFunctions as functions
@@ -37,10 +37,10 @@ def startPipeline(url, URLType):
     @param url: url of the privacy policy or terms of conditions
     @return: structured policy statement
     """
-    policy = readURL(url, URLType)
-    structuredPolicy = create_data_structure(policy)
+    unstructuredData = readURL(url, URLType)
+    structuredData = createDataStructure(unstructuredData)
 
-    return structuredPolicy
+    return structuredData
 
 
 def getPolicy(url):
