@@ -1,7 +1,7 @@
 from django.urls import path
 
 from ProcessingAPI.views import ProcessingOne
-from mosega_backend.ConfigHandler import *
+from Handlers.Config.ConfigHandler import *
 configs = ConfigHandler.load_config('config.yaml')
 
 

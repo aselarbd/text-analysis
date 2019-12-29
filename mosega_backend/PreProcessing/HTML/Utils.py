@@ -42,7 +42,7 @@ def cleanTags(url):
 
     cleaned_html_page = cleaner.clean_html(response.text)
 
-    soup = BeautifulSoup(cleaned_html_page)
+    soup = BeautifulSoup(cleaned_html_page, features="lxml")
 
     # Isolate body
     body = soup.body

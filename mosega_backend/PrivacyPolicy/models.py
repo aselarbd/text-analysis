@@ -1,14 +1,25 @@
 from django.db import models
-import jsonfield
 
 
-# Create your models here.
-class PrivacyPolicyModel(models.Model):
+class PolicyDetails(models.Model):
+    class Meta:
+        unique_together = (('PolicyID', 'SectionID'),)
 
-    # Model sample attributes
-    PrivacyPolicy = jsonfield.JSONField()
-    id = models.AutoField(primary_key=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    policy_url = models.CharField(max_length=3000, default="")
-    policy_heading = models.CharField(max_length=1000, default="")
-    type= models.CharField(max_length=100, default="")
+    PolicyID = models.IntegerField()
+    SectionID = models.IntegerField()
+    heading = models.CharField(max_length=1000)
+    text = models.TextField()
+
+    def __str__(self):
+        return self.heading
+
+
+class PolicyHighLevel(models.Model):
+    tableID = models.AutoField(primary_key=True)
+    PolicyID = models.IntegerField()
+    PolicyURL = models.CharField(max_length=300)
+    PolicyTitle = models.CharField(max_length=1000)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.PolicyTitle

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from mosega_backend.ConfigHandler import *
+from Handlers.Config.ConfigHandler import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,16 +92,22 @@ WSGI_APPLICATION = 'mosega_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': configs['database']['db_engine'],
+#         'NAME': configs['database']['db_name'],
+#         'HOST': configs['database']['db_host'],
+#         'USERNAME': configs['database']['db_username'],
+#         'PASSWORD': configs['database']['db_password'],
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': configs['database']['db_engine'],
-        'NAME': configs['database']['db_name'],
-        'HOST': configs['database']['db_host'],
-        'USERNAME': configs['database']['db_username'],
-        'PASSWORD': configs['database']['db_password'],
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

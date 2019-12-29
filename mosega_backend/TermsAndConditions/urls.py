@@ -2,7 +2,7 @@ from django.urls import path
 
 from TermsAndConditions import views
 
-from mosega_backend.ConfigHandler import *
+from Handlers.Config.ConfigHandler import *
 configs = ConfigHandler.load_config('config.yaml')
 
 
