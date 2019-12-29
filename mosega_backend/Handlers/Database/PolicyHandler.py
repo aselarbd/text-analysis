@@ -22,9 +22,9 @@ class PolicyHandler:
 
     def getOnePolicy(self, ID):
         policyHL = self.highLevel.objects.filter(PolicyID=ID)
-        if len(policyHL) > 0 :
+        if len(policyHL) > 0:
             policyDetails = self.detailsHelper(self.details.objects.filter(PolicyID=ID))
-            policy = Policy(title=policyHL.PolicyTitle, url=policyHL.PolicyURL, data=policyDetails)
+            policy = Policy(title=policyHL[0].PolicyTitle, url=policyHL[0].PolicyURL, data=policyDetails)
             policy.id = ID
             return policy
         return None
