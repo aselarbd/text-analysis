@@ -1,3 +1,4 @@
+from Handlers.Database.Utils import detailsHelper
 from TermsAndConditions.models import TermHighLevel, TermDetails
 from TermsAndConditions.serializer import Term
 
@@ -13,7 +14,7 @@ class TermHandler:
         termHL = self.highLevel.objects.order_by('TermID')
 
         for i in range(len(termHL)):
-            details = self.detailsHelper(self.details.objects.filter(TermID=termHL[i].TermID))
+            details = detailsHelper(self.details.objects.filter(TermID=termHL[i].TermID))
             term = Term(title=termHL[i].TermTitle, url=termHL[i].TermURL, data=details)
             term.id = termHL[i].TermID
             termList.append(term)
@@ -23,17 +24,11 @@ class TermHandler:
     def getOneTerm(self, ID):
         termHL = self.highLevel.objects.filter(TermID=ID)
         if len(termHL) > 0:
-            termDetails = self.detailsHelper(self.details.objects.filter(TermID=ID))
+            termDetails = detailsHelper(self.details.objects.filter(TermID=ID))
             term = Term(title=termHL[0].TermTitle, url=termHL[0].TermURL, data=termDetails)
             term.id = ID
             return term
         return None
-
-    def detailsHelper(self, details):
-        detailsList = []
-        for obj in details:
-            detailsList.append({"heading": obj.heading, "text": obj.text})
-        return detailsList
 
     def addTerm(self, term):
         termID = len(self.highLevel.objects.order_by('TermID')) + 1

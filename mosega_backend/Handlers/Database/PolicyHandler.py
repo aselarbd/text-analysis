@@ -1,3 +1,4 @@
+from Handlers.Database.Utils import detailsHelper
 from PrivacyPolicy.models import PolicyDetails, PolicyHighLevel
 from PrivacyPolicy.serializer import Policy
 
@@ -13,7 +14,7 @@ class PolicyHandler:
         policyHL = self.highLevel.objects.order_by('PolicyID')
 
         for i in range(len(policyHL)):
-            details = self.detailsHelper(self.details.objects.filter(PolicyID=policyHL[i].PolicyID))
+            details = detailsHelper(self.details.objects.filter(PolicyID=policyHL[i].PolicyID))
             policy = Policy(title=policyHL[i].PolicyTitle, url=policyHL[i].PolicyURL, data=details)
             policy.id = policyHL[i].PolicyID
             policyList.append(policy)
@@ -23,17 +24,11 @@ class PolicyHandler:
     def getOnePolicy(self, ID):
         policyHL = self.highLevel.objects.filter(PolicyID=ID)
         if len(policyHL) > 0:
-            policyDetails = self.detailsHelper(self.details.objects.filter(PolicyID=ID))
+            policyDetails = detailsHelper(self.details.objects.filter(PolicyID=ID))
             policy = Policy(title=policyHL[0].PolicyTitle, url=policyHL[0].PolicyURL, data=policyDetails)
             policy.id = ID
             return policy
         return None
-
-    def detailsHelper(self, details):
-        detailsList = []
-        for obj in details:
-            detailsList.append({"heading": obj.heading, "text": obj.text})
-        return detailsList
 
     def addPolicy(self, policy):
         policyID = len(self.highLevel.objects.order_by('PolicyID')) + 1
