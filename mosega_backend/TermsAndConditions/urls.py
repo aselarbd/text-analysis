@@ -2,7 +2,7 @@ from django.urls import path
 
 from TermsAndConditions import views
 
-from mosega_backend.ConfigHandler import *
+from Handlers.Config.ConfigHandler import *
 configs = ConfigHandler.load_config('config.yaml')
 
 
@@ -11,5 +11,5 @@ API_PATH = configs['api']['backend']['Term']['view'] + '/' +configs['api']['titl
 
 urlpatterns = [
     path(API_PATH, views.TermsAndConditionsList.as_view()),
-    path(API_PATH + '<int:pk>/', views.TermsAndConditionsDetails.as_view()),
+    path(API_PATH + '<int:ID>/', views.TermsAndConditionsDetails.as_view()),
 ]

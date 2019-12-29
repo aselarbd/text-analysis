@@ -1,5 +1,5 @@
 import Shared.constants as constants
-from mosega_backend.ConfigHandler import *
+from Handlers.Config.ConfigHandler import *
 
 DEBUG = constants.DEBUG
 
