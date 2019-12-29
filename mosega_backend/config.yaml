@@ -1,9 +1,17 @@
+#database :
+#  db_engine: 'djongo'
+#  db_name: 'mosega'
+#  db_host: 'mongodb+srv://mosega_super_user:mosegasuper@aselacluster-nfyzw.mongodb.net/test?retryWrites=true&w=majority'
+#  db_username: 'mosega'
+#  db_password: 'mosegasuper'
+
 database :
-  db_engine: 'djongo'
-  db_name: 'mosega-dev'
-  db_host: 'mongodb+srv://mosega_super_user:mosegasuper@aselacluster-nfyzw.mongodb.net/test?retryWrites=true&w=majority'
-  db_username: 'mosega'
-  db_password: 'mosegasuper'
+  engine: 'django.db.backends.mysql'
+  dbname: 'mosega'
+  host: 'localhost'
+  port: '3306'
+  username: 'mosega'
+  password: 'mosegasuper'
 
 
 api:
