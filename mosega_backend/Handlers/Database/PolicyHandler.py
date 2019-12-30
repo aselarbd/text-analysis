@@ -48,7 +48,7 @@ class PolicyHandler:
     def deletePolicy(self, ID):
         policy = self.getOnePolicy(ID)
         if policy:
-            self.highLevel.objects.get(PolicyID=ID).delete()
+            self.highLevel.objects.filter(PolicyID=ID).delete()
             self.details.objects.filter(PolicyID=ID).delete()
             return policy
         return None

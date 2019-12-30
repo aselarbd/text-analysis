@@ -3,6 +3,7 @@ from PrivacyPolicy.models import PolicyDetails, PolicyHighLevel
 from Handlers.Database.PolicyHandler import PolicyHandler
 from PreProcessing import PreProcessing
 from urllib.parse import urlparse
+from Handlers.Cache.PolicyCache import PolicyCache
 
 
 class PolicyService:
@@ -12,10 +13,15 @@ class PolicyService:
     """
 
     dbHandler = PolicyHandler(details=PolicyDetails, highLevel=PolicyHighLevel)
+    cacheHandler = PolicyCache
 
     @staticmethod
     def getAll():
-        policies = PolicyService.dbHandler.getAllPolicy()
+        if len(PolicyService.cacheHandler.getAllPolicy()) > 0:
+            policies = PolicyService.cacheHandler.getAllPolicy()
+        else:
+            policies = PolicyService.dbHandler.getAllPolicy()
+            PolicyService.cacheHandler.initializePolicyCache(policies)
         serializer = PolicySerializer(policies, many=True)
         return serializer.data
 
@@ -27,29 +33,51 @@ class PolicyService:
         policy = Policy(title=policyTitle, url=policyURL, data=policyData)
 
         policyID = PolicyService.dbHandler.addPolicy(policy)
+        policy.id = policyID
+
+        if len(PolicyService.cacheHandler.getAllPolicy()) == 0:
+            PolicyService.initializeCache()
+        PolicyService.cacheHandler.addPolicy(policy)
+
+
         serializer = PolicySerializer(policy)
-        serializer.data['id'] = policyID
-        policyRes = serializer.data
-        policyRes['id'] = policyID
-        return policyRes
+        return serializer.data
 
     @staticmethod
     def getPolicy(ID):
-        policy = PolicyService.dbHandler.getOnePolicy(ID)
+
+        if len(PolicyService.cacheHandler.getAllPolicy()) == 0:
+            PolicyService.initializeCache()
+
+        policy = PolicyService.cacheHandler.getOnePolicy(ID)
+
         if policy:
+            serializer = PolicySerializer(policy)
+            return serializer.data
+        else:
+            policy = PolicyService.dbHandler.getOnePolicy(ID)
+            if policy:
+                PolicyService.cacheHandler.addPolicy(policy)
+                serializer = PolicySerializer(policy)
+                return serializer.data
+            else:
+                return {"error message": "requested policy not found in the database"}
+
+    @staticmethod
+    def deletePolicy(ID):
+
+        if len(PolicyService.cacheHandler.getAllPolicy()) == 0:
+            PolicyService.initializeCache()
+
+        policy = PolicyService.dbHandler.deletePolicy(ID)
+        if policy:
+            if PolicyService.cacheHandler.getOnePolicy(ID):
+                PolicyService.cacheHandler.deleteOnePolicy(ID)
             serializer = PolicySerializer(policy)
             return serializer.data
         return {"error message": "requested policy not found in the database"}
 
     @staticmethod
-    def deletePolicy(ID):
-        policy = PolicyService.dbHandler.deletePolicy(ID)
-        if policy:
-            serializer = PolicySerializer(policy)
-            return serializer.data
-        return {"error message": "requested policy not found in the database"}
-
-
-
-
-
+    def initializeCache():
+        policies = PolicyService.dbHandler.getAllPolicy()
+        PolicyService.cacheHandler.initializePolicyCache(policies)
