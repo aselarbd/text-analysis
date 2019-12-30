@@ -1,4 +1,9 @@
 class PolicyCache:
+    """
+    Privacy policy cache handler
+
+    """
+
     policyObjectCache = {}
     policyProcessHeadingCache = {}
     policyProcessTextCache = {}

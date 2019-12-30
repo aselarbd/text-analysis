@@ -39,7 +39,6 @@ class PolicyService:
             PolicyService.initializeCache()
         PolicyService.cacheHandler.addPolicy(policy)
 
-
         serializer = PolicySerializer(policy)
         return serializer.data
 
