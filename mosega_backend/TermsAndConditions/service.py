@@ -3,6 +3,7 @@ from TermsAndConditions.models import TermDetails, TermHighLevel
 from Handlers.Database.TermHandler import TermHandler
 from PreProcessing import PreProcessing
 from urllib.parse import urlparse
+from Handlers.Cache.TermCache import TermCache
 
 
 class TermService:
@@ -12,10 +13,15 @@ class TermService:
     """
 
     dbHandler = TermHandler(details=TermDetails, highLevel=TermHighLevel)
+    cacheHandler = TermCache
 
     @staticmethod
     def getAll():
-        terms = TermService.dbHandler.getAllTerm()
+        if len(TermService.cacheHandler.getAllTerm()) > 0:
+            terms = TermService.cacheHandler.getAllTerm()
+        else:
+            terms = TermService.dbHandler.getAllTerm()
+            TermService.cacheHandler.initializeTermCache(terms)
         serializer = TermSerializer(terms, many=True)
         return serializer.data
 
@@ -27,27 +33,50 @@ class TermService:
         term = Term(title=termTitle, url=termURL, data=termData)
 
         termID = TermService.dbHandler.addTerm(term)
+        term.id = termID
+
+        if len(TermService.cacheHandler.getAllTerm()) == 0:
+            TermService.initializeCache()
+        TermService.cacheHandler.addTerm(term)
+
         serializer = TermSerializer(term)
-        serializer.data['id'] = termID
-        termRes = serializer.data
-        termRes['id'] = termID
-        return termRes
+        return serializer.data
 
     @staticmethod
     def getTerm(ID):
-        term = TermService.dbHandler.getOneTerm(ID)
+        if len(TermService.cacheHandler.getAllTerm()) == 0:
+            TermService.initializeCache()
+
+        term = TermService.cacheHandler.getOneTerm(ID)
         if term:
+            serializer = TermSerializer(term)
+            return serializer.data
+        else:
+            term = TermService.dbHandler.getOneTerm(ID)
+            if term:
+                TermService.cacheHandler.addTerm(term)
+                serializer = TermSerializer(term)
+                return serializer.data
+            else:
+                return {"error message": "requested term not found in the database"}
+
+    @staticmethod
+    def deleteTerm(ID):
+        if len(TermService.cacheHandler.getAllTerm()) == 0:
+            TermService.initializeCache()
+
+        term = TermService.dbHandler.deleteTerm(ID)
+        if term:
+            if TermService.cacheHandler.getOneTerm(ID):
+                TermService.cacheHandler.deleteOneTerm(ID)
             serializer = TermSerializer(term)
             return serializer.data
         return {"error message": "requested term not found in the database"}
 
     @staticmethod
-    def deleteTerm(ID):
-        term = TermService.dbHandler.deleteTerm(ID)
-        if term:
-            serializer = TermSerializer(term)
-            return serializer.data
-        return {"error message": "requested term not found in the database"}
+    def initializeCache():
+        terms = TermService.dbHandler.getAllTerm()
+        TermService.cacheHandler.initializeTermCache(terms)
 
 
 
