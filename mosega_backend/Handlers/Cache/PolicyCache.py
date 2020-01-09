@@ -8,12 +8,44 @@ class PolicyCache:
     policyProcessHeadingCache = {}
     policyProcessTextCache = {}
 
+    # Policy CRUD caching functions
 
     @staticmethod
     def initializePolicyCache(policies):
         PolicyCache.initializePolicyObjectCache(policies)
         PolicyCache.initializePolicyProcessHeadingCache(policies)
         PolicyCache.initializePolicyProcessTextCache(policies)
+
+    @staticmethod
+    def initializePolicyObjectCache(policies):
+        for policy in policies:
+            PolicyCache.addPolicy(policy)
+
+    @staticmethod
+    def initializePolicyProcessHeadingCache(policies):
+        for policy in policies:
+            PolicyCache.addProcessDecAndTextCache(policy, 'heading')
+
+    @staticmethod
+    def initializePolicyProcessTextCache(policies):
+        for policy in policies:
+            PolicyCache.addProcessDecAndTextCache(policy, 'text')
+
+    @staticmethod
+    def addPolicy(policy):
+        PolicyCache.policyObjectCache[str(policy.id)] = policy
+        PolicyCache.addProcessDecAndTextCache(policy, 'heading')
+        PolicyCache.addProcessDecAndTextCache(policy, 'text')
+
+    @staticmethod
+    def addProcessDecAndTextCache(policy, field):
+        sectionIndex = 1
+        for data in policy.data:
+            if field == 'heading':
+                PolicyCache.policyProcessHeadingCache[str(policy.id) + '_' + str(sectionIndex)] = data[field]
+            if field == 'text':
+                PolicyCache.policyProcessTextCache[str(policy.id) + '_' + str(sectionIndex)] = data[field]
+            sectionIndex += 1
 
     @staticmethod
     def getAllPolicy():
@@ -48,39 +80,31 @@ class PolicyCache:
                 if k.startswith(ID):
                     del PolicyCache.policyProcessTextCache[k]
 
-
-
-    @staticmethod
-    def addPolicy(policy):
-        PolicyCache.policyObjectCache[str(policy.id)] = policy
-        PolicyCache.addProcessDecAndTextCache(policy, 'heading')
-        PolicyCache.addProcessDecAndTextCache(policy, 'text')
+    # ProcessingAPI caching functions
 
     @staticmethod
-    def initializePolicyObjectCache(policies):
-        for policy in policies:
-            PolicyCache.addPolicy(policy)
+    def getAllHeadingsList():
+        headingList = []
+        for key in PolicyCache.policyProcessHeadingCache.keys():
+            headingList.append([key, PolicyCache.policyProcessHeadingCache.get(key)])
+        return headingList
 
     @staticmethod
-    def initializePolicyProcessHeadingCache(policies):
-        for policy in policies:
-            PolicyCache.addProcessDecAndTextCache(policy, 'heading')
+    def getAllDescriptionList():
+        descriptionList = []
+        for key in PolicyCache.policyProcessTextCache.keys():
+            descriptionList.append([key, PolicyCache.policyProcessTextCache.get(key)])
+        return descriptionList
 
     @staticmethod
-    def initializePolicyProcessTextCache(policies):
-        for policy in policies:
-            PolicyCache.addProcessDecAndTextCache(policy, 'text')
-
+    def getHeadingAndDescriptionList():
+        headings = PolicyCache.getAllHeadingsList()
+        descriptions = PolicyCache.getAllDescriptionList()
+        return headings, descriptions
 
     @staticmethod
-    def addProcessDecAndTextCache(policy, field):
-        sectionIndex = 1
-        for data in policy.data:
-            if field == 'heading':
-                PolicyCache.policyProcessHeadingCache[str(policy.id) + '_' + str(sectionIndex)] = data[field]
-            if field == 'text':
-                PolicyCache.policyProcessTextCache[str(policy.id) + '_' + str(sectionIndex)] = data[field]
-            sectionIndex += 1
+    def getDescription(ID):
+        return PolicyCache.policyProcessTextCache.get(ID)
 
     @staticmethod
     def getHeadingList():

@@ -9,6 +9,8 @@ class PolicyHandler:
         self.highLevel = highLevel
         self.details = details
 
+    # CRUD Operations DB Functions
+
     def getAllPolicy(self):
         policyList = []
         policyHL = self.highLevel.objects.order_by('PolicyID')
@@ -52,3 +54,16 @@ class PolicyHandler:
             self.details.objects.filter(PolicyID=ID).delete()
             return policy
         return None
+
+    # ProcessingAPI DB functions
+
+    def getAllHeadingAndDescriptionList(self):
+        headings = []
+        descriptions = []
+
+        policies = self.details.objects.order_by('PolicyID')
+
+        for policy in policies:
+            headings.append([str(policy.PolicyID)+'_'+str(policy.SectionID), policy.heading])
+            descriptions.append([str(policy.PolicyID)+'_'+str(policy.SectionID), policy.text])
+        return headings, descriptions

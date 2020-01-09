@@ -8,11 +8,44 @@ class TermCache:
     termProcessHeadingCache = {}
     termProcessTextCache = {}
 
+    # Term CRUD caching functions
+
     @staticmethod
     def initializeTermCache(terms):
         TermCache.initializeTermObjectCache(terms)
         TermCache.initializeTermProcessHeadingCache(terms)
         TermCache.initializeTermProcessTextCache(terms)
+
+    @staticmethod
+    def initializeTermObjectCache(terms):
+        for term in terms:
+            TermCache.addTerm(term)
+
+    @staticmethod
+    def initializeTermProcessHeadingCache(terms):
+        for term in terms:
+            TermCache.addProcessDecAndTextCache(term, 'heading')
+
+    @staticmethod
+    def initializeTermProcessTextCache(terms):
+        for term in terms:
+            TermCache.addProcessDecAndTextCache(term, 'text')
+
+    @staticmethod
+    def addTerm(term):
+        TermCache.termObjectCache[str(term.id)] = term
+        TermCache.addProcessDecAndTextCache(term, 'heading')
+        TermCache.addProcessDecAndTextCache(term, 'text')
+
+    @staticmethod
+    def addProcessDecAndTextCache(term, field):
+        sectionIndex = 1
+        for data in term.data:
+            if field == 'heading':
+                TermCache.termProcessHeadingCache[str(term.id) + '_' + str(sectionIndex)] = data[field]
+            if field == 'text':
+                TermCache.termProcessTextCache[str(term.id) + '_' + str(sectionIndex)] = data[field]
+            sectionIndex += 1
 
     @staticmethod
     def getAllTerm():
@@ -47,36 +80,31 @@ class TermCache:
                 if k.startswith(ID):
                     del TermCache.termProcessTextCache[k]
 
-    @staticmethod
-    def addTerm(term):
-        TermCache.termObjectCache[str(term.id)] = term
-        TermCache.addProcessDecAndTextCache(term, 'heading')
-        TermCache.addProcessDecAndTextCache(term, 'text')
+    # ProcessingAPI caching functions
 
     @staticmethod
-    def initializeTermObjectCache(terms):
-        for term in terms:
-            TermCache.addTerm(term)
+    def getAllHeadingsList():
+        headingList = []
+        for key in TermCache.termProcessHeadingCache.keys():
+            headingList.append([key, TermCache.termProcessHeadingCache.get(key)])
+        return headingList
 
     @staticmethod
-    def initializeTermProcessHeadingCache(terms):
-        for term in terms:
-            TermCache.addProcessDecAndTextCache(term, 'heading')
+    def getAllDescriptionList():
+        descriptionList = []
+        for key in TermCache.termProcessTextCache.keys():
+            descriptionList.append([key, TermCache.termProcessTextCache.get(key)])
+        return descriptionList
 
     @staticmethod
-    def initializeTermProcessTextCache(terms):
-        for term in terms:
-            TermCache.addProcessDecAndTextCache(term, 'text')
+    def getHeadingAndDescriptionList():
+        headings = TermCache.getAllHeadingsList()
+        descriptions = TermCache.getAllDescriptionList()
+        return headings, descriptions
 
     @staticmethod
-    def addProcessDecAndTextCache(term, field):
-        sectionIndex = 1
-        for data in term.data:
-            if field == 'heading':
-                TermCache.termProcessHeadingCache[str(term.id) + '_' + str(sectionIndex)] = data[field]
-            if field == 'text':
-                TermCache.termProcessTextCache[str(term.id) + '_' + str(sectionIndex)] = data[field]
-            sectionIndex += 1
+    def getDescription(ID):
+        return TermCache.termProcessTextCache.get(ID)
 
     @staticmethod
     def getHeadingList():
