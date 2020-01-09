@@ -1,6 +1,6 @@
 from django.urls import path
 
-from ProcessingAPI.views import ProcessingOne
+from ProcessingAPI.views import Processing
 from Handlers.Config.ConfigHandler import *
 configs = ConfigHandler.load_config('config.yaml')
 
@@ -9,5 +9,5 @@ API_PATH = configs['api']['backend']['Processing']['view'] + '/' +configs['api']
            configs['api']['current_version'] + '/' + configs['api']['backend']['Processing']['name'] + '/'
 
 urlpatterns = [
-    path(API_PATH, ProcessingOne.as_view()),
+    path(API_PATH, Processing.as_view()),
 ]

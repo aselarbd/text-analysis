@@ -9,6 +9,8 @@ class TermHandler:
         self.highLevel = highLevel
         self.details = details
 
+    # CRUD operations DB Functions
+
     def getAllTerm(self):
         termList = []
         termHL = self.highLevel.objects.order_by('TermID')
@@ -52,3 +54,16 @@ class TermHandler:
             self.details.objects.filter(TermID=ID).delete()
             return term
         return None
+
+    # ProcessingAPI DB Functions
+
+    def getAllHeadingAndDescriptionList(self):
+        headings = []
+        descriptions = []
+
+        terms = self.details.objects.order_by('TermID')
+
+        for term in terms:
+            headings.append([str(term.TermID)+'_'+str(term.SectionID), term.heading])
+            descriptions.append([str(term.TermID)+'_'+str(term.SectionID), term.text])
+        return headings, descriptions
