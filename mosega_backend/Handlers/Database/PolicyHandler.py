@@ -1,9 +1,9 @@
-from Handlers.Database.Utils import detailsHelper
+from Handlers.Database.Utils import detailsHelper, Singleton
 from PrivacyPolicy.models import PolicyDetails, PolicyHighLevel
 from PrivacyPolicy.serializer import Policy
 
 
-class PolicyHandler:
+class PolicyHandler(metaclass=Singleton):
 
     def __init__(self, highLevel, details):
         self.highLevel = highLevel
