@@ -1,9 +1,9 @@
-from Handlers.Database.Utils import detailsHelper
+from Handlers.Database.Utils import detailsHelper, Singleton
 from TermsAndConditions.models import TermHighLevel, TermDetails
 from TermsAndConditions.serializer import Term
 
 
-class TermHandler:
+class TermHandler(metaclass=Singleton):
 
     def __init__(self, highLevel, details):
         self.highLevel = highLevel
