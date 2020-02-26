@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Input, Button, Header, Icon, Modal } from 'semantic-ui-react';
-import * as URL from '../../Constants/URL';
+import * as URL from '../../constants/URL';
 import axios from 'axios';
 import classes from './NewPolicy.css';
 
