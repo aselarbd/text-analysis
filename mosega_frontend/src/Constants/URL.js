@@ -1,0 +1,1 @@
+export const ADD_NEW_POLICY = '/PrivacyPolicyAPI/api/v1/PrivacyPolicy/';
