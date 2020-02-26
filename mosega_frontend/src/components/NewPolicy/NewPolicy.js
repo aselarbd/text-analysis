@@ -99,6 +99,7 @@ class NewPolicy extends Component {
                     style={{padding: "10px 10px", width:"80%", height:"60px"}}
                 />
                 <Button
+                    positive
                     disabled = {!this.state.submittable}
                     onClick = {this.addNewPolicy}
                     style = {{padding: "10px 10px",marginLeft: "20px", width:"15%", height:"40px"}}
