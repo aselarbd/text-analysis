@@ -1,7 +1,8 @@
-.NewPolicy {
+.Policies {
     border: 1px solid darkgrey;
-    margin-top: 30px;
     margin-left: 10px;
     margin-right: 10px;
     border-radius: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }

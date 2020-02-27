@@ -6,11 +6,13 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 import * as URL from './constants/URL';
 import policyReducer from './store/reducers/policyReducer';
+import selectedPolicyReducer from './store/reducers/selectedPolicyReducer';
 import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 
 const rootReducer = combineReducers({
-    policies : policyReducer
+    policies : policyReducer,
+    selected : selectedPolicyReducer
 });
 
 const store = createStore(rootReducer);
