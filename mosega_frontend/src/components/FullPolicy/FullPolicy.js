@@ -17,8 +17,8 @@ class FullPolicy extends Component{
             if (!this.state.loadedPolicy ||
                 (this.state.loadedPolicy && this.state.loadedPolicy.id !== this.props.loadedPolicyID)){
                     const endPoint = URL.GET_ONE_POLICY + '/' + this.props.loadedPolicyID;
-
-                    axios.get(endPoint)
+                    const url = "http://www.mocky.io/v2/5e57f199300000e1ccfd3efc";
+                    axios.get(url)
                         .then(resp => {
                             this.setState({loadedPolicy: resp.data});
                         });

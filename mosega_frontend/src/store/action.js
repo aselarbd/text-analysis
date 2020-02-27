@@ -1,2 +1,2 @@
-export const ADD = 'ADD';
+export const LOAD_POLICIES = 'LOAD_POLICIES';
 export const SELECT_POLICY = 'SELECT_POLICY';

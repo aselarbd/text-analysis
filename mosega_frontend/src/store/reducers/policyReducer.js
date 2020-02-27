@@ -4,12 +4,11 @@ const initialState = {
     policies: []
 };
 
-//TODO: manage state
 const reducer = (state= initialState, action) => {
     switch (action.type){
-        case actionType.ADD:
+        case actionType.LOAD_POLICIES:
             return {
-                ...state
+                policies: [...action.payload]
             };
         default:
             return state
