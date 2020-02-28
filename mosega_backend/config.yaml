@@ -32,11 +32,11 @@ api:
 
     Policy:
       view: 'PrivacyPolicyAPI'
-      name: 'PrivacyPolicy'
+      name: 'policy'
 
     Term:
       view: 'TermsAndConditionsAPI'
-      name: 'Terms+And+Conditions'
+      name: 'term'
 
     Processing:
       view: 'ProcessingAPI'
