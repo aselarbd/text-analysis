@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Message,  Dimmer, Loader, Segment } from 'semantic-ui-react';
-import SubPart from '../../Shared/Segment/Segment';
+import SubPart from '../../Shared/Segment/CardDeck';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import * as URL from '../../../constants/URL';

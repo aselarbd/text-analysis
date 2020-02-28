@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Dimmer, Form, Input, Loader, Message, Segment} from 'semantic-ui-react';
 import classes from './Similarity.css';
 import Aux from '../../../hoc/Aux';
-import Deck from '../../Shared/Segment/Segment';
+import Deck from '../../Shared/Segment/CardDeck';
 import {validateNumberField} from '../../Shared/Utils/Utils';
 import * as URL from '../../../constants/URL';
 import axios from 'axios';

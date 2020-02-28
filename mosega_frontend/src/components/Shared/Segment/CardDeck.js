@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
 
-const segment = (props) => {
+const cardDeck = (props) => {
     return <Card
         header={props.heading}
         meta={props.meta}
@@ -11,4 +11,4 @@ const segment = (props) => {
     />;
 };
 
-export default segment;
+export default cardDeck;
