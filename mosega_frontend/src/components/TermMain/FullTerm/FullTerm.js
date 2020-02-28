@@ -22,7 +22,7 @@ class FullTerm extends Component{
         if (this.props.loadedTermID){
             if (!this.state.loadedTerm ||
                 (this.state.loadedTerm && this.state.loadedTerm.id !== this.props.loadedTermID)){
-                const endPoint = URL.GET_ONE_TERM + '/' + this.props.loadedTermID;
+                const endPoint = URL.GET_ONE_TERM + this.props.loadedTermID;
                 axios.get(endPoint)
                     .then(resp => {
                         this.setState({loadedTerm: resp.data});

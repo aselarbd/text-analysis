@@ -22,7 +22,7 @@ class FullPolicy extends Component{
         if (this.props.loadedPolicyID){
             if (!this.state.loadedPolicy ||
                 (this.state.loadedPolicy && this.state.loadedPolicy.id !== this.props.loadedPolicyID)){
-                    const endPoint = URL.GET_ONE_POLICY + '/' + this.props.loadedPolicyID;
+                    const endPoint = URL.GET_ONE_POLICY + this.props.loadedPolicyID;
                     axios.get(endPoint)
                         .then(resp => {
                             this.setState({loadedPolicy: resp.data});
