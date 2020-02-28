@@ -1,13 +1,13 @@
 import * as actionType from '../action';
 
 const initialState = {
-    policies: []
+    terms: []
 };
 
 const reducer = (state= initialState, action) => {
-    if (action.type === actionType.LOAD_POLICIES) {
+    if (action.type === actionType.LOAD_TERMS) {
         return {
-            policies: [...action.payload]
+            terms: [...action.payload]
         };
     } else {
         return state

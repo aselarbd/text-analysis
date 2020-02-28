@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import * as URL from '../../constants/URL';
 
-import NewPolicy from '../../components/PolicyMain/NewPolicy/NewPolicy';
-import PolicyList from '../../components/PolicyMain/Policies/Policies';
-import FullPolicy from '../../components/PolicyMain/FullPolicy/FullPolicy';
-import classes from './PrivacyPolicy.css';
+import NewTerm from '../../components/TermMain/NewTerm/NewTerm';
+import TermList from '../../components/TermMain/Terms/Terms';
+import FullTerm from '../../components/TermMain/FullTerm/FullTerm';
+import classes from './TermAndCondition.css';
 import Aux from '../../hoc/Aux';
 
 
@@ -13,50 +13,50 @@ import {connect} from 'react-redux';
 import * as actionType from '../../store/action';
 import {Dimmer, Loader, Pagination, Segment} from "semantic-ui-react";
 
-class PrivacyPolicy extends Component{
+class TermAndCondition extends Component{
 
     state = {
-      policies: null,
-      pageNumber: 0,
-      totalPolicies: 0
+        terms: null,
+        pageNumber: 0,
+        totalTerms: 0
     };
 
     componentDidMount() {
-        const endPoint= URL.GET_ALL_POLICIES;
+        const endPoint= URL.GET_ALL_TERMs;
         axios.get(endPoint)
             .then(resp => {
-                this.setState({totalPolicies:resp.data.length});
-                this.props.addPoliciesHandler(resp.data);
-              this.setPoliciesForPage(0);
+                this.setState({totalTerms:resp.data.length});
+                this.props.addTermsHandler(resp.data);
+                this.setTermsForPage(0);
             });
     }
 
-    setPoliciesForPage = (pageNo) => {
+    setTermsForPage = (pageNo) => {
         const start = pageNo * 5;
         const end = start +5;
-        this.setState({policies: this.props.policies.slice(start, end)});
+        this.setState({terms: this.props.terms.slice(start, end)});
     };
 
 
     pageChangeHandler = (event, pageInfo) => {
-        this.setPoliciesForPage(pageInfo.activePage - 1);
+        this.setTermsForPage(pageInfo.activePage - 1);
     };
 
     render() {
 
-        let policies = (
+        let terms = (
             <Segment style={{marginLeft: "10px", marginRight: "10px", height:"400px"}}>
                 <Dimmer active inverted>
-                    <Loader size='large'> Policies are Loading ...</Loader>
+                    <Loader size='large'> Terms are Loading ...</Loader>
                 </Dimmer>
             </Segment>
         );
 
-        if (this.state.policies){
-            policies = (
+        if (this.state.terms){
+            terms = (
                 <Aux>
-                    <PolicyList policies={this.state.policies}/>
-                    <div className={classes.PolicyPagination}>
+                    <TermList terms={this.state.terms}/>
+                    <div className={classes.TermPagination}>
                         <Pagination
                             onPageChange = {(event,data)=>this.pageChangeHandler(event,data)}
                             boundaryRange={0}
@@ -65,24 +65,23 @@ class PrivacyPolicy extends Component{
                             firstItem={null}
                             lastItem={null}
                             siblingRange={1}
-                            totalPages={Math.ceil(this.state.totalPolicies/5)}
+                            totalPages={Math.ceil(this.state.totalTerms/5)}
                         />
                     </div>
                 </Aux>
             );
-
         }
 
         return(
             <div>
                 <div>
-                    {policies}
+                    {terms}
                 </div>
                 <div>
-                    <NewPolicy />
+                    <NewTerm />
                 </div>
                 <div>
-                    <FullPolicy />
+                    <FullTerm />
                 </div>
             </div>
         );
@@ -90,15 +89,15 @@ class PrivacyPolicy extends Component{
 }
 
 const mapStateToProps = state => {
-  return {
-      policies: state.policies.policies
-  }
+    return {
+        terms: state.terms.terms
+    }
 };
 
 const mapDispatchToProps = dispath => {
     return{
-        addPoliciesHandler: (policies) => dispath({type:actionType.LOAD_POLICIES, payload: policies})
+        addTermsHandler: (terms) => dispath({type:actionType.LOAD_TERMS, payload: terms})
     }
 };
 
-export default connect(mapStateToProps,mapDispatchToProps) (PrivacyPolicy);
+export default connect(mapStateToProps,mapDispatchToProps) (TermAndCondition);

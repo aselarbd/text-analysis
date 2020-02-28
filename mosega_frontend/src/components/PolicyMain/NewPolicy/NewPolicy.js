@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Input, Button, Header, Icon, Modal } from 'semantic-ui-react';
-import * as URL from '../../constants/URL';
+import * as URL from '../../../constants/URL';
 import axios from 'axios';
 import classes from './NewPolicy.css';
 
@@ -12,7 +12,7 @@ class NewPolicy extends Component {
         url:'',
         modalOpen: false,
         success: true
-    }
+    };
 
     urlChangeHandler = (event) => {
         this.setState({
@@ -25,7 +25,7 @@ class NewPolicy extends Component {
             this.setState({submittable: false});
         }
         console.log(this.state.submittable);
-    }
+    };
 
     addNewPolicy = () => {
         const endPoint = URL.ADD_NEW_POLICY;
@@ -39,11 +39,11 @@ class NewPolicy extends Component {
             this.setState({success:false});
         });
 
-    }
+    };
 
-    handleOpen = () => this.setState({ modalOpen: true })
+    handleOpen = () => this.setState({ modalOpen: true });
 
-    handleClose = () => this.setState({ modalOpen: false })
+    handleClose = () => this.setState({ modalOpen: false });
 
 
     render() {

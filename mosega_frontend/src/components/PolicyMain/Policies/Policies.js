@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Card } from 'semantic-ui-react';
 import Policy from './Policy/Policy';
-import * as actionType from '../../store/action';
+import * as actionType from '../../../store/action';
 import {connect} from 'react-redux';
 import classes from './Policies.css'
 

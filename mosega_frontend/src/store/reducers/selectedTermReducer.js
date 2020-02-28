@@ -1,13 +1,14 @@
 import * as actionType from '../action';
 
 const initialState = {
-    policies: []
+    selectedTermID: null
 };
 
 const reducer = (state= initialState, action) => {
-    if (action.type === actionType.LOAD_POLICIES) {
+    if (action.type === actionType.SELECT_TERM) {
         return {
-            policies: [...action.payload]
+            ...state,
+            selectedTermID : action.selectedTermID
         };
     } else {
         return state

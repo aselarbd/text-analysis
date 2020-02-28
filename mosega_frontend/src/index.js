@@ -7,12 +7,16 @@ import axios from 'axios';
 import * as URL from './constants/URL';
 import policyReducer from './store/reducers/policyReducer';
 import selectedPolicyReducer from './store/reducers/selectedPolicyReducer';
+import termReducer from './store/reducers/termReducer';
+import selectedTermReducer from './store/reducers/selectedTermReducer';
 import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 
 const rootReducer = combineReducers({
     policies : policyReducer,
-    selected : selectedPolicyReducer
+    selectedPolicy : selectedPolicyReducer,
+    terms: termReducer,
+    selectedTerm: selectedTermReducer
 });
 
 const store = createStore(rootReducer);

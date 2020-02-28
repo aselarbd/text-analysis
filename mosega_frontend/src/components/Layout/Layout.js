@@ -5,7 +5,7 @@ import NavigationBar from './Navbar/NavigationBar';
 const layout = (props) => (
     <Aux>
         <NavigationBar/>
-        <main  style={{"margin-top":"20px"}}>
+        <main  style={{"marginTop":"20px"}}>
             {props.children}
         </main>
     </Aux>

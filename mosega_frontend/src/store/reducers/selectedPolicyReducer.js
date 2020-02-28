@@ -5,15 +5,14 @@ const initialState = {
 };
 
 const reducer = (state= initialState, action) => {
-    switch (action.type){
-        case actionType.SELECT_POLICY:
-            return {
-                ...state,
-                selectedPolicyID : action.selectedPolicyID
-            };
-        default:
-            return state
+    if (action.type === actionType.SELECT_POLICY) {
+        return {
+            ...state,
+            selectedPolicyID : action.selectedPolicyID
+        };
+    } else {
+        return state
     }
 };
 
-export default reducer
+export default reducer;
