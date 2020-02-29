@@ -35,15 +35,21 @@ class Cluster extends Component {
     };
 
     findClusterHandler = () => {
-        if (validateNumberField(this.state.clusterCount)){
-            this.setState({clusterResult: null});
-            this.setState({makeRequest:true});
+        if (this.state.clusterCount !== '' && this.state.dataType !== '') {
+            if (validateNumberField(this.state.clusterCount)) {
+                this.setState({clusterResult: null});
+                this.setState({makeRequest: true});
+            }
+        }else {
+            this.buttonDisableChecker();
         }
     };
 
     buttonDisableChecker = () => {
       if (this.state.clusterCount !== '' && this.state.dataType !== ''){
           this.setState({disableButton:false});
+      }else {
+          this.setState({disableButton:true});
       }
     };
 
