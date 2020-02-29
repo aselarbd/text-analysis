@@ -1,0 +1,20 @@
+.Cluster {
+    border: 1px solid darkgrey;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding:10px;
+}
+
+.ButtonRight {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ClusterResult {
+    border: 1px solid darkgrey;
+    margin: 20px 10px;
+    border-radius: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}

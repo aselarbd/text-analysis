@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 
 import PrivacyPolicy from './containers/PrivacyPolicy/PrivacyPolicy';
 import TermAndCondition from './containers/TermAndCondition/TermAndCondition';
+import Process from './containers/Process/Process';
 
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
                   <Switch>
                       <Route path="/policy" exact component={PrivacyPolicy}/>
                       <Route path="/term" exact component={TermAndCondition}/>
+                      <Route path="/process" exact component={Process}/>
                       <Redirect from='/' to='/policy' />
                   </Switch>
 

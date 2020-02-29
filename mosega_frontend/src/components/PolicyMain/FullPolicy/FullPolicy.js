@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Message,  Dimmer, Loader, Segment } from 'semantic-ui-react';
-import SubPart from '../../Shared/Segment/Segment';
+import CardDeck from '../../Shared/CardDeck/CardDeck';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import * as URL from '../../../constants/URL';
@@ -48,7 +48,7 @@ class FullPolicy extends Component{
 
         if(this.state.loadedPolicy){
             policy = this.state.loadedPolicy.data.map((item,index) => (
-               <SubPart key={'subPart_'+index} heading={item.heading} text={item.text}/>
+               <CardDeck key={'subPart_'+index} heading={item.heading} text={item.text}/>
             ));
         }
         return <div className={classes.FullPolicy}>{policy}</div>;
