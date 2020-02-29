@@ -32,7 +32,7 @@ class Process extends Component{
                 </Grid.Column>
 
                 <Grid.Column stretched width={12} >
-                    <Segment style={{"height":"90vh", marginRight: "10px", marginBottom:"10px"}}>
+                    <Segment style={{minHeight:"90vh", marginRight: "10px", marginBottom:"10px"}}>
                         {this.state.activeItem ==='similarity' ? <Similarity/> : null }
                         {this.state.activeItem ==='cluster' ? <Cluster/> : null }
                     </Segment>

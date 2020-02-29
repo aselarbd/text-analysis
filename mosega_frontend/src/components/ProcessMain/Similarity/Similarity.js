@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Button, Dimmer, Form, Input, Loader, Message, Segment} from 'semantic-ui-react';
+import {Button, Dimmer, Form, Input, Loader, Message, Segment, Divider} from 'semantic-ui-react';
 import classes from './Similarity.css';
 import Aux from '../../../hoc/Aux';
-import Deck from '../../Shared/Segment/CardDeck';
+import Deck from '../../Shared/CardDeck/CardDeck';
 import {validateNumberField} from '../../Shared/Utils/Utils';
 import * as URL from '../../../constants/URL';
 import axios from 'axios';
@@ -19,26 +19,35 @@ class Similarity extends Component {
         query:'',
         dataType: '',
         makeRequest: null,
-        similarResult: null
+        similarResult: null,
+        disableButton: true
     };
 
     similarityQueryHandler =(event) => {
         this.setState({query: event.target.value});
+        this.buttonDisableChecker();
     };
 
     noClausesHandler = (event) => {
-        let clauses = event.target.value;
-        this.setState({clauses: clauses});
+        this.setState({clauses: event.target.value});
+        this.buttonDisableChecker();
     };
 
     dataTypeHandler = (event,val) => {
         this.setState({dataType: val.value});
+        this.buttonDisableChecker();
     };
 
     findSimilarityHandler = () => {
         if (validateNumberField(this.state.clauses)){
             this.setState({similarResult: null});
             this.setState({makeRequest:true});
+        }
+    };
+
+    buttonDisableChecker = () => {
+        if (this.state.clauses !== '' && this.state.dataType !== '' && this.state.query !== ''){
+            this.setState({disableButton:false});
         }
     };
 
@@ -58,8 +67,7 @@ class Similarity extends Component {
 
             axios.post(URL.PROCESSING,data)
                 .then(resp => {
-                    this.setState({similarResult:resp.data});
-                    this.setState({makeRequest: null});
+                    this.setState({similarResult:resp.data, makeRequest: null});
                 });
         }
     }
@@ -76,7 +84,7 @@ class Similarity extends Component {
             similarityResult = (
                 <Segment style={{marginLeft: "10px", marginRight: "10px", marginTop: "30px", height:"400px"}}>
                     <Dimmer active inverted>
-                        <Loader size='large'>Loading Similarity Results</Loader>
+                        <Loader size='large'>Loading Similarity Results ...</Loader>
                     </Dimmer>
                 </Segment>
             );
@@ -84,14 +92,25 @@ class Similarity extends Component {
 
         if (this.state.similarResult){
             const resultDeck = this.state.similarResult.map((item,index) => (
+                <div key={'similar_part_'+index}>
+                    <Divider horizontal style={{marginLeft:"10px", marginRight:"10px"}}> {index + 1}</Divider>
+                    <br/>
                     <Deck
-                        key={'similar_part_'+index}
                         heading={item.heading}
                         text={item.text}
-                        meta={'Accuracy : '+item.accuracy.toFixed(2)}
+                        meta={'Accuracy : '+item.accuracy.toFixed(4)}
                     />
+                    <br/>
+                </div>
+
                 ));
-            similarityResult = <div className={classes.SimilarityResult}>{resultDeck}</div>
+            similarityResult = (
+                <div className={classes.SimilarityResult}>
+                    <h2 style={{ textAlign: "center"}}>Similarity Results</h2>
+                    <br/>
+                    {resultDeck}
+                </div>
+            );
         }
 
         return (
@@ -127,6 +146,7 @@ class Similarity extends Component {
                                     color='green'
                                     size='large'
                                     onClick={this.findSimilarityHandler}
+                                    disabled ={this.state.disableButton}
                                 >
                                     Find Similar clauses
                                 </Button>
