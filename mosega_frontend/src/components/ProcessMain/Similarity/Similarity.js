@@ -39,15 +39,22 @@ class Similarity extends Component {
     };
 
     findSimilarityHandler = () => {
-        if (validateNumberField(this.state.clauses)){
-            this.setState({similarResult: null});
-            this.setState({makeRequest:true});
+        if (this.state.clauses !=='' && this.state.query !== '' && this.state.dataType !==''){
+            if (validateNumberField(this.state.clauses)){
+                this.setState({similarResult: null});
+                this.setState({makeRequest:true});
+            }
+        }else{
+            this.buttonDisableChecker();
         }
     };
 
     buttonDisableChecker = () => {
         if (this.state.clauses !== '' && this.state.dataType !== '' && this.state.query !== ''){
             this.setState({disableButton:false});
+        }
+        else {
+            this.setState({disableButton:true});
         }
     };
 
