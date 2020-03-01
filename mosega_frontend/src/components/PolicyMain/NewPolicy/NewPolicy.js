@@ -8,7 +8,7 @@ import classes from './NewPolicy.css';
 class NewPolicy extends Component {
 
     state = {
-        submittable: false,
+        disableButton: false,
         url:'',
         modalOpen: false,
         success: true
@@ -18,27 +18,32 @@ class NewPolicy extends Component {
         this.setState({
             url: event.target.value
         });
+        this.buttonDisableChecker();
+    };
 
-        this.setState({submittable: true});
-
-        if (this.state.url ===''){
-            this.setState({submittable: false});
-        }
-        console.log(this.state.submittable);
+    buttonDisableChecker = () => {
+      if (this.state.url !==''){
+          this.setState({disableButton:false});
+      }else{
+          this.setState({disableButton:true});
+      }
     };
 
     addNewPolicy = () => {
-        const endPoint = URL.ADD_NEW_POLICY;
-        const data = {"url": this.state.url};
+        if (this.state.url !== ''){
+            const endPoint = URL.ADD_NEW_POLICY;
+            const data = {"url": this.state.url};
 
-        axios.post(endPoint,data).then(() => {
-            this.setState({success:true});
-            this.handleOpen();
-        }).catch(err => {
-            console.log(err);
-            this.setState({success:false});
-        });
-
+            axios.post(endPoint,data).then(() => {
+                this.setState({success:true});
+                this.handleOpen();
+            }).catch(err => {
+                console.log(err);
+                this.setState({success:false});
+            });
+        }else {
+            this.buttonDisableChecker();
+        }
     };
 
     handleOpen = () => this.setState({ modalOpen: true });
@@ -103,7 +108,7 @@ class NewPolicy extends Component {
                 />
                 <Button
                     positive
-                    disabled = {!this.state.submittable}
+                    disabled = {!this.state.disableButton}
                     onClick = {this.addNewPolicy}
                     style = {{padding: "10px 10px",marginLeft: "20px", width:"15%", height:"40px"}}
                 > Add Policy</Button>
