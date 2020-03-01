@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { Card } from 'semantic-ui-react';
-import Policy from './Policy/Policy';
+import {Card} from 'semantic-ui-react';
+import Policy from '../../Shared/CardItem/CardItem';
 import * as actionType from '../../../store/action';
 import {connect} from 'react-redux';
 import classes from './Policies.css'
@@ -20,8 +20,10 @@ class Policies extends Component{
                     <Policy
                         key={'policy_'+policy.id}
                         title={policy.title}
+                        buttonText='View Policy'
+                        dataType= 'Privacy Policy'
                         goToURL={() => this.goToURLHandler(policy.url)}
-                        viewPolicy={() => this.props.selectPolicyHandler(policy.id)}
+                        viewItem={() => this.props.selectPolicyHandler(policy.id)}
                     />
                 );
             }
