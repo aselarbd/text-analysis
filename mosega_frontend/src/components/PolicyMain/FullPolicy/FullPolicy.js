@@ -61,9 +61,9 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispath => {
+const mapDispatchToProps = dispatch => {
     return{
-        selectPolicyHandler: (ID) => dispath({type:actionType.SELECT_POLICY, selectedPolicyID:ID})
+        selectPolicyHandler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID})
     }
 };
 

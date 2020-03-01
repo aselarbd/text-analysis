@@ -4,7 +4,6 @@ import * as URL from '../../../constants/URL';
 import axios from 'axios';
 import classes from './NewTerm.css';
 
-
 class NewTerm extends Component {
 
     state = {
@@ -30,7 +29,7 @@ class NewTerm extends Component {
         const endPoint = URL.ADD_NEW_TERM;
         const data = {"url": this.state.url};
 
-        axios.post(endPoint,data).then(resp => {
+        axios.post(endPoint,data).then(() => {
             this.setState({success:true});
             this.handleOpen();
         }).catch(err => {
@@ -42,7 +41,10 @@ class NewTerm extends Component {
 
     handleOpen = () => this.setState({ modalOpen: true });
 
-    handleClose = () => this.setState({ modalOpen: false });
+    handleClose = () => {
+        this.setState({ modalOpen: false });
+        window.location.reload();
+    };
 
 
     render() {

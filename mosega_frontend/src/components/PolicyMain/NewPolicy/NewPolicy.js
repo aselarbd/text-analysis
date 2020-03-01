@@ -31,7 +31,7 @@ class NewPolicy extends Component {
         const endPoint = URL.ADD_NEW_POLICY;
         const data = {"url": this.state.url};
 
-        axios.post(endPoint,data).then(resp => {
+        axios.post(endPoint,data).then(() => {
             this.setState({success:true});
             this.handleOpen();
         }).catch(err => {
@@ -43,7 +43,10 @@ class NewPolicy extends Component {
 
     handleOpen = () => this.setState({ modalOpen: true });
 
-    handleClose = () => this.setState({ modalOpen: false });
+    handleClose = () => {
+        this.setState({ modalOpen: false });
+        window.location.reload();
+    };
 
 
     render() {
