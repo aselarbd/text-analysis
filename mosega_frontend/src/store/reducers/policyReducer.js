@@ -7,10 +7,11 @@ const initialState = {
 const reducer = (state= initialState, action) => {
     if (action.type === actionType.LOAD_POLICIES) {
         return {
+            ...state,
             policies: [...action.payload]
         };
     } else {
-        return state
+        return state;
     }
 };
 

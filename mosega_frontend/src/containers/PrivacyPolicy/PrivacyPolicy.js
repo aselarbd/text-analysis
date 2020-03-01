@@ -22,11 +22,10 @@ class PrivacyPolicy extends Component{
     };
 
     componentDidMount() {
-        const endPoint= URL.GET_ALL_POLICIES;
-        axios.get(endPoint)
+        axios.get(URL.GET_ALL_POLICIES)
             .then(resp => {
                 this.setState({totalPolicies:resp.data.length});
-                this.props.addPoliciesHandler(resp.data);
+                this.props.addPoliciesHandler(resp.data.reverse());
               this.setPoliciesForPage(0);
             });
     }
@@ -95,9 +94,9 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = dispath => {
+const mapDispatchToProps = dispatch => {
     return{
-        addPoliciesHandler: (policies) => dispath({type:actionType.LOAD_POLICIES, payload: policies})
+        addPoliciesHandler: (policies) => dispatch({type:actionType.LOAD_POLICIES, payload: policies})
     }
 };
 

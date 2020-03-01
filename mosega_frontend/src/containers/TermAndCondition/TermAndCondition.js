@@ -17,16 +17,13 @@ class TermAndCondition extends Component{
 
     state = {
         terms: null,
-        pageNumber: 0,
         totalTerms: 0
     };
-
     componentDidMount() {
-        const endPoint= URL.GET_ALL_TERMs;
-        axios.get(endPoint)
+        axios.get(URL.GET_ALL_TERMs)
             .then(resp => {
                 this.setState({totalTerms:resp.data.length});
-                this.props.addTermsHandler(resp.data);
+                this.props.addTermsHandler(resp.data.reverse());
                 this.setTermsForPage(0);
             });
     }
@@ -94,9 +91,9 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispath => {
+const mapDispatchToProps = dispatch => {
     return{
-        addTermsHandler: (terms) => dispath({type:actionType.LOAD_TERMS, payload: terms})
+        addTermsHandler: (terms) => dispatch({type:actionType.LOAD_TERMS, payload: terms})
     }
 };
 

@@ -61,9 +61,9 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispath => {
+const mapDispatchToProps = dispatch => {
     return{
-        selectTermHandler: (ID) => dispath({type:actionType.SELECT_TERM, selectedTermID:ID})
+        selectTermHandler: (ID) => dispatch({type:actionType.SELECT_TERM, selectedTermID:ID})
     }
 };
 

@@ -3,7 +3,7 @@ import { Card } from 'semantic-ui-react';
 import Term from './Term/Term';
 import * as actionType from '../../../store/action';
 import {connect} from 'react-redux';
-import classes from './Terms.css'
+import classes from './Terms.css';
 
 class Terms extends Component{
 
@@ -38,9 +38,9 @@ class Terms extends Component{
 
 }
 
-const mapDispatchToProps = dispath => {
+const mapDispatchToProps = dispatch => {
     return{
-        selectTermHandler: (ID) => dispath({type:actionType.SELECT_TERM, selectedTermID:ID})
+        selectTermHandler: (ID) => dispatch({type:actionType.SELECT_TERM, selectedTermID:ID})
     }
 };
 
