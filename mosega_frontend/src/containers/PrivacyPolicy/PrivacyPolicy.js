@@ -5,6 +5,7 @@ import * as URL from '../../constants/URL';
 import NewPolicy from '../../components/PolicyMain/NewPolicy/NewPolicy';
 import PolicyList from '../../components/PolicyMain/Policies/Policies';
 import FullPolicy from '../../components/PolicyMain/FullPolicy/FullPolicy';
+import SearchBar from '../../components/Shared/SearchBar/SearchBar';
 import classes from './PrivacyPolicy.css';
 import Aux from '../../hoc/Aux';
 
@@ -17,8 +18,8 @@ class PrivacyPolicy extends Component{
 
     state = {
       policies: null,
-      pageNumber: 0,
-      totalPolicies: 0
+      totalPolicies: 0,
+      searchList:null
     };
 
     componentDidMount() {
@@ -26,6 +27,7 @@ class PrivacyPolicy extends Component{
             .then(resp => {
                 this.setState({totalPolicies:resp.data.length});
                 this.props.addPoliciesHandler(resp.data.reverse());
+                this.setState({searchList:resp.data});
               this.setPoliciesForPage(0);
             });
     }
@@ -43,6 +45,16 @@ class PrivacyPolicy extends Component{
 
     render() {
 
+        let searchList = null;
+        if (this.state.searchList){
+            searchList = <SearchBar
+                items={this.state.searchList}
+                buttonText='View Policy'
+                dataType='Privacy Policy'
+                type='policy'
+            />;
+        }
+
         let policies = (
             <Segment style={{marginLeft: "10px", marginRight: "10px", height:"400px"}}>
                 <Dimmer active inverted>
@@ -54,6 +66,7 @@ class PrivacyPolicy extends Component{
         if (this.state.policies){
             policies = (
                 <Aux>
+                    {searchList}
                     <PolicyList policies={this.state.policies}/>
                     <div className={classes.PolicyPagination}>
                         <Pagination
