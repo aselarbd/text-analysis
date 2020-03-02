@@ -1,0 +1,14 @@
+.SearchBar{
+    margin: 20px auto;
+    width: 20%;
+}
+
+.searchResult{
+    border: 1px solid darkgrey;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}

@@ -5,6 +5,7 @@ import * as URL from '../../constants/URL';
 import NewTerm from '../../components/TermMain/NewTerm/NewTerm';
 import TermList from '../../components/TermMain/Terms/Terms';
 import FullTerm from '../../components/TermMain/FullTerm/FullTerm';
+import SearchBar from '../../components/Shared/SearchBar/SearchBar';
 import classes from './TermAndCondition.css';
 import Aux from '../../hoc/Aux';
 
@@ -17,13 +18,15 @@ class TermAndCondition extends Component{
 
     state = {
         terms: null,
-        totalTerms: 0
+        totalTerms: 0,
+        searchList:null
     };
     componentDidMount() {
         axios.get(URL.GET_ALL_TERMs)
             .then(resp => {
                 this.setState({totalTerms:resp.data.length});
                 this.props.addTermsHandler(resp.data.reverse());
+                this.setState({searchList:resp.data});
                 this.setTermsForPage(0);
             });
     }
@@ -41,6 +44,16 @@ class TermAndCondition extends Component{
 
     render() {
 
+        let searchList = null;
+        if (this.state.searchList){
+            searchList = <SearchBar
+                items={this.state.searchList}
+                buttonText='View Term'
+                dataType='Term of Conditions'
+                type='term'
+            />;
+        }
+
         let terms = (
             <Segment style={{marginLeft: "10px", marginRight: "10px", height:"400px"}}>
                 <Dimmer active inverted>
@@ -52,6 +65,7 @@ class TermAndCondition extends Component{
         if (this.state.terms){
             terms = (
                 <Aux>
+                    {searchList}
                     <TermList terms={this.state.terms}/>
                     <div className={classes.TermPagination}>
                         <Pagination

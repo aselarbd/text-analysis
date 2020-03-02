@@ -18,7 +18,7 @@ const cardItem = (props) => {
                         color='green'
                         onClick={props.goToURL}
                     >
-                        Go To Site
+                        Visit Web Site
                     </Button>
                     <Button
                         basic
