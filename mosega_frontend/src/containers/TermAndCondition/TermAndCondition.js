@@ -12,7 +12,7 @@ import Aux from '../../hoc/Aux';
 
 import {connect} from 'react-redux';
 import * as actionType from '../../store/action';
-import {Dimmer, Loader, Pagination, Segment} from "semantic-ui-react";
+import {Dimmer, Divider, Loader, Pagination, Segment} from "semantic-ui-react";
 
 class TermAndCondition extends Component{
 
@@ -66,6 +66,14 @@ class TermAndCondition extends Component{
             terms = (
                 <Aux>
                     {searchList}
+                    <br/>
+                    <Divider
+                        horizontal
+                        style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}
+                    >
+                        Terms and Conditions list
+                    </Divider>
+                    <br/><br/>
                     <TermList terms={this.state.terms}/>
                     <div className={classes.TermPagination}>
                         <Pagination
@@ -89,9 +97,25 @@ class TermAndCondition extends Component{
                     {terms}
                 </div>
                 <div>
+                    <br/>
+                    <Divider
+                        horizontal
+                        style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}
+                    >
+                        Add new Terms of Conditions
+                    </Divider>
+                    <br/><br/>
                     <NewTerm />
                 </div>
                 <div>
+                    <br/>
+                    <Divider
+                        horizontal
+                        style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}
+                    >
+                        View Full Terms of Condition
+                    </Divider>
+                    <br/><br/>
                     <FullTerm />
                 </div>
             </div>

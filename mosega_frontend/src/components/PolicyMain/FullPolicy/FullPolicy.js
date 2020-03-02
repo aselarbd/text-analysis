@@ -1,16 +1,21 @@
 import React, {Component} from 'react';
-import { Message,  Dimmer, Loader, Segment } from 'semantic-ui-react';
+import {Message, Dimmer, Loader, Segment, Divider, Header, Button} from 'semantic-ui-react';
 import CardDeck from '../../Shared/CardDeck/CardDeck';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import * as URL from '../../../constants/URL';
 import classes from './FullPolicy.css';
 import * as actionType from "../../../store/action";
+import Aux from '../../../hoc/Aux';
 
 class FullPolicy extends Component{
 
     state={
         loadedPolicy: null
+    };
+
+    goToURLHandler = (url) => {
+        window.location.replace(url);
     };
 
     componentDidMount() {
@@ -47,11 +52,40 @@ class FullPolicy extends Component{
         }
 
         if(this.state.loadedPolicy){
-            policy = this.state.loadedPolicy.data.map((item,index) => (
+            const policyRes = this.state.loadedPolicy.data.map((item,index) => (
                <CardDeck key={'subPart_'+index} heading={item.heading} text={item.text}/>
             ));
+
+            policy =(
+                <Aux>
+                    <Segment clearing style={{marginLeft:"10px", marginRight:"10px"}}>
+                        <Header as='h2' floated='left'>
+                            {this.state.loadedPolicy.title}
+                        </Header>
+                        <Header as='h2' floated='right'>
+                            <Button
+                                size='big'
+                                color='teal'
+                                onClick={()=>this.goToURLHandler(this.state.loadedPolicy.url)}
+                            >
+                                Visit web site
+                            </Button>
+                        </Header>
+                    </Segment>
+                    <br/>
+                    <Divider horizontal style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}>
+                        Details
+                    </Divider>
+                    <br/>
+                    {policyRes}
+                </Aux>
+            );
         }
-        return <div className={classes.FullPolicy}>{policy}</div>;
+        return (
+            <div className={classes.FullPolicy}>
+                {policy}
+            </div>
+        );
     }
 }
 
