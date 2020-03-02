@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Card } from 'semantic-ui-react';
-import Term from './Term/Term';
+import Term from '../../Shared/CardItem/CardItem';
 import * as actionType from '../../../store/action';
 import {connect} from 'react-redux';
 import classes from './Terms.css';
@@ -20,8 +20,10 @@ class Terms extends Component{
                     <Term
                         key={'term_'+term.id}
                         title={term.title}
+                        buttonText='View Term'
+                        dataType= 'Terms of Conditions'
                         goToURL={() => this.goToURLHandler(term.url)}
-                        viewTerm={() => this.props.selectTermHandler(term.id)}
+                        viewItem={() => this.props.selectTermHandler(term.id)}
                     />
                 );
             }
