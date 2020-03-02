@@ -12,7 +12,7 @@ import Aux from '../../hoc/Aux';
 
 import {connect} from 'react-redux';
 import * as actionType from '../../store/action';
-import {Dimmer, Loader, Pagination, Segment} from "semantic-ui-react";
+import {Dimmer, Divider, Loader, Pagination, Segment} from "semantic-ui-react";
 
 class PrivacyPolicy extends Component{
 
@@ -67,6 +67,14 @@ class PrivacyPolicy extends Component{
             policies = (
                 <Aux>
                     {searchList}
+                    <br/>
+                    <Divider
+                        horizontal
+                        style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}
+                    >
+                        Policy List
+                    </Divider>
+                    <br/><br/>
                     <PolicyList policies={this.state.policies}/>
                     <div className={classes.PolicyPagination}>
                         <Pagination
@@ -91,9 +99,25 @@ class PrivacyPolicy extends Component{
                     {policies}
                 </div>
                 <div>
+                    <br/>
+                    <Divider
+                        horizontal
+                        style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}
+                    >
+                        Add New Policy
+                    </Divider>
+                    <br/><br/>
                     <NewPolicy />
                 </div>
                 <div>
+                    <br/>
+                    <Divider
+                        horizontal
+                        style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}
+                    >
+                        View Full Policy
+                    </Divider>
+                    <br/><br/>
                     <FullPolicy />
                 </div>
             </div>

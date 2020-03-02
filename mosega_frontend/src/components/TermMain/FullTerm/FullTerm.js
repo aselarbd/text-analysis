@@ -1,16 +1,21 @@
 import React, {Component} from 'react';
-import { Message,  Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { Message,  Dimmer, Loader, Segment, Divider, Header, Button } from 'semantic-ui-react';
 import SubPart from '../../Shared/CardDeck/CardDeck';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import * as URL from '../../../constants/URL';
 import classes from './FullTerm.css';
 import * as actionType from "../../../store/action";
+import Aux from '../../../hoc/Aux';
 
 class FullTerm extends Component{
 
     state={
         loadedTerm: null
+    };
+
+    goToURLHandler = (url) => {
+        window.location.replace(url);
     };
 
     componentDidMount() {
@@ -47,9 +52,34 @@ class FullTerm extends Component{
         }
 
         if(this.state.loadedTerm){
-            term = this.state.loadedTerm.data.map((item, index) => (
+            const termRes = this.state.loadedTerm.data.map((item, index) => (
                 <SubPart key={'subPart_'+index} heading={item.heading} text={item.text}/>
             ));
+
+            term =(
+                <Aux>
+                    <Segment clearing style={{marginLeft:"10px", marginRight:"10px"}}>
+                        <Header as='h2' floated='left'>
+                            {this.state.loadedTerm.title}
+                        </Header>
+                        <Header as='h2' floated='right'>
+                            <Button
+                                size='big'
+                                color='teal'
+                                onClick={()=>this.goToURLHandler(this.state.loadedTerm.url)}
+                            >
+                                Visit web site
+                            </Button>
+                        </Header>
+                    </Segment>
+                    <br/>
+                    <Divider horizontal style={{marginLeft:"10px", marginRight:"10px", marginTop:"20px"}}>
+                        Details
+                    </Divider>
+                    <br/>
+                    {termRes}
+                </Aux>
+            );
         }
         return <div className={classes.FullTerm}>{term}</div>;
     }
