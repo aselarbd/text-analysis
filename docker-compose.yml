@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  backend:
+    build: ./mosega_backend/
+    image: m_bend
+#    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+
+  frontend:
+    build: ./mosega_frontend/
+    image: m_fend
+    ports:
+    - "5000:80"
+    depends_on:
+      - backend

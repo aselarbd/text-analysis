@@ -130,7 +130,5 @@ dmypy.json
 
 .idea/
 
-TextPreProcessing/migrations
-PrivacyPolicy/migrations
 PreProcessing/HTML/policies
 PreProcessing/HTML/terms
