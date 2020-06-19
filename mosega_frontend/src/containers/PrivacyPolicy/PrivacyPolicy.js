@@ -49,8 +49,8 @@ class PrivacyPolicy extends Component{
         if (this.state.searchList){
             searchList = <SearchBar
                 items={this.state.searchList}
-                buttonText='View Policy'
-                dataType='Privacy Policy'
+                button_text='View Policy'
+                data_type='Privacy Policy'
                 type='policy'
             />;
         }

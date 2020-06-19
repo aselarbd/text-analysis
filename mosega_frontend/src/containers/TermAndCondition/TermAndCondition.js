@@ -48,8 +48,8 @@ class TermAndCondition extends Component{
         if (this.state.searchList){
             searchList = <SearchBar
                 items={this.state.searchList}
-                buttonText='View Term'
-                dataType='Term of Conditions'
+                button_text='View Term'
+                data_type='Term of Conditions'
                 type='term'
             />;
         }
