@@ -6,6 +6,8 @@ import Deck from '../../Shared/CardDeck/CardDeck';
 import {validateNumberField} from '../../Shared/Utils/Utils';
 import * as URL from '../../../constants/URL';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import * as actionType from '../../../store/action';
 
 const options = [
     { key: 'p', text: 'Privacy Policy', value: 'policy' },
@@ -20,7 +22,9 @@ class Similarity extends Component {
         dataType: '',
         makeRequest: null,
         similarResult: null,
-        disableButton: true
+        disableButton: true,
+        optionsSelected: false,
+        currentOption: null
     };
 
     similarityQueryHandler =(event) => {
@@ -41,6 +45,10 @@ class Similarity extends Component {
     findSimilarityHandler = () => {
         if (this.state.clauses !=='' && this.state.query !== '' && this.state.dataType !==''){
             if (validateNumberField(this.state.clauses)){
+                if (this.state.optionsSelected){
+                   this.setState({optionsSelected:false, currentOption:null});
+                }
+
                 this.setState({similarResult: null});
                 this.setState({makeRequest:true});
             }
@@ -60,6 +68,21 @@ class Similarity extends Component {
 
     componentDidMount() {
         this.setState({makeRequest: null, similarResult: null});
+
+        if (this.props.similarQueryCheck) {
+            this.setState({
+                query:this.props.similarQuery,
+                dataType:this.props.similarQueryType,
+                optionsSelected:true
+            });
+            if (this.props.similarQueryType==='policy'){
+                this.setState({currentOption: [options[0]]});
+            } else if(this.props.similarQueryType==='term'){
+                this.setState({currentOption: [options[1]]});
+            }
+
+            this.props.removeSimilarQuery();
+        }
     }
 
     componentDidUpdate() {
@@ -127,7 +150,7 @@ class Similarity extends Component {
                         <Form.Select required
                             fluid
                             label='Type'
-                            options={options}
+                            options={this.state.optionsSelected===true? this.state.currentOption :options}
                             onChange={this.dataTypeHandler}
                             placeholder='Is it from Privacy Policy or Terms of Conditions ?'
                         />
@@ -169,4 +192,19 @@ class Similarity extends Component {
     }
 }
 
-export default Similarity;
+const mapStateToProps = state => {
+  return {
+      similarQueryCheck: state.similarityCheck.queryCheck,
+      similarQuery: state.similarityCheck.query,
+      similarQueryType: state.similarityCheck.queryType
+
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        removeSimilarQuery: () => dispatch({type:actionType.REMOVE_SIMILARITY_QUERY})
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps) (Similarity);

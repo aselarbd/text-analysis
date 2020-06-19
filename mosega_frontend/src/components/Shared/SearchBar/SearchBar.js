@@ -58,12 +58,12 @@ class SearchBar extends Component {
                 <Result
                     key={'search_'+item.id}
                     title={item.title}
-                    buttonText= {this.props.buttonText}
-                    dataType= {this.props.dataType}
+                    buttonText= {this.props.button_text}
+                    dataType= {this.props.data_type}
                     goToURL={() => this.goToURLHandler(item.url)}
                     viewItem={() => {
-                        if (this.props.type==='policy') {this.props.selectPolicyHandler(item.id);}
-                        if (this.props.type==='term') {this.props.selectTermHandler(item.id);}
+                        if (this.props.type==='policy') {this.props.select_policy_handler(Number(item.id));}
+                        if (this.props.type==='term') {this.props.select_term_handler(Number(item.id));}
                         }
                     }
                 />
@@ -88,7 +88,6 @@ class SearchBar extends Component {
                                     results={results}
                                     value={value}
                                     minCharacters={2}
-                                    {...this.props}
                                 />
                             </div>
                         </Grid.Column>
@@ -106,8 +105,8 @@ class SearchBar extends Component {
 
 const mapDispatchToProps = dispatch => {
     return{
-        selectPolicyHandler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID}),
-        selectTermHandler: (ID) => dispatch({type:actionType.SELECT_TERM, selectedTermID:ID})
+        select_policy_handler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID}),
+        select_term_handler: (ID) => dispatch({type:actionType.SELECT_TERM, selectedTermID:ID})
     }
 };
 

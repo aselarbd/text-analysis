@@ -20,7 +20,7 @@ class FullPolicy extends Component{
 
     componentDidMount() {
         this.setState({loadedPolicy: null});
-        this.props.selectPolicyHandler(null);
+        this.props.select_policy_handler(null);
     }
 
     componentDidUpdate() {
@@ -53,7 +53,7 @@ class FullPolicy extends Component{
 
         if(this.state.loadedPolicy){
             const policyRes = this.state.loadedPolicy.data.map((item,index) => (
-               <CardDeck key={'subPart_'+index} heading={item.heading} text={item.text}/>
+               <CardDeck key={'subPart_'+index} heading={item.heading} text={item.text} displayType="policy"/>
             ));
 
             policy =(
@@ -97,7 +97,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        selectPolicyHandler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID})
+        select_policy_handler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID})
     }
 };
 

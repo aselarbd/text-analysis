@@ -23,7 +23,7 @@ class Policies extends Component{
                         buttonText='View Policy'
                         dataType= 'Privacy Policy'
                         goToURL={() => this.goToURLHandler(policy.url)}
-                        viewItem={() => this.props.selectPolicyHandler(policy.id)}
+                        viewItem={() => this.props.select_policy_handler(policy.id)}
                     />
                 );
             }
@@ -42,7 +42,7 @@ class Policies extends Component{
 
 const mapDispatchToProps = dispatch => {
     return{
-        selectPolicyHandler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID})
+        select_policy_handler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID})
     }
 };
 

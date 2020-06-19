@@ -53,7 +53,7 @@ class FullTerm extends Component{
 
         if(this.state.loadedTerm){
             const termRes = this.state.loadedTerm.data.map((item, index) => (
-                <SubPart key={'subPart_'+index} heading={item.heading} text={item.text}/>
+                <SubPart key={'subPart_'+index} heading={item.heading} text={item.text} displayType="term"/>
             ));
 
             term =(
