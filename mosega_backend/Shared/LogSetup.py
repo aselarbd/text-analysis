@@ -11,4 +11,8 @@ def setupLog():
     """
     logFile = configs['logging']['path']
     logStyle = configs['logging']['format']
-    logging.basicConfig(filename=os.path.abspath(logFile), level=logging.DEBUG, format=logStyle)
+    fileName = os.path.abspath(logFile)
+
+    filePointer = open(fileName, "w+")
+
+    logging.basicConfig(filename=fileName, level=logging.DEBUG, format=logStyle)
