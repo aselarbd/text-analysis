@@ -1,6 +1,8 @@
 import os
 import re
 import logging
+import io
+import copy
 import Shared.SharedFunctions as functions
 import Shared.LogSetup as logSetup
 
@@ -32,23 +34,31 @@ def readFile(path, fileType):
     idTermFound = False
 
     # Temporary variable to store newly processed file after cross check with identification terms
-    temporaryFile = open("temp.txt", "w+")
-
+    temporaryFilePath = os.getcwd() + "/" + configs['temporaryFile']['path']
     given_file = open(path, 'r')
-    for line in given_file:
 
-        if idTermFound:
-            temporaryFile.write(line + '\n')
-        else:
-            if re.compile('|'.join(idTerms), re.IGNORECASE).search(line):
-                idTermFound = True
-                temporaryFile.write(line + '\n')
-                LOGGER.debug('Identification words found')
+    with io.open(temporaryFilePath, mode="w+", encoding="utf-8") as f:
+        try:
+            f.truncate(0)
+            LOGGER.debug("Cleaned the temporary file")
 
-    temporaryFile.close()
+            for line in given_file:
+
+                if idTermFound:
+                    f.write(line + '\n')
+                else:
+                    if re.compile('|'.join(idTerms), re.IGNORECASE).search(line):
+                        idTermFound = True
+                        f.write(line + '\n')
+                        LOGGER.debug('Identification words found')
+        except IOError:
+            LOGGER.debug("Error while cleaning temporary file")
+
+        given_file.close()
 
     LOGGER.debug("Read the" + fileType + " file : " + path)
 
-    selectedFile = open("temp.txt", "r")
-    os.remove("temp.txt")
-    return selectedFile.read()
+    selectedFile = open(temporaryFilePath, "r+")
+    read_file_context = copy.deepcopy(selectedFile.read())
+    selectedFile.close()
+    return read_file_context

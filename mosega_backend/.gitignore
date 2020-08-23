@@ -130,5 +130,5 @@ dmypy.json
 
 .idea/
 
-PreProcessing/HTML/policies
-PreProcessing/HTML/terms
+#PreProcessing/HTML/policies
+#PreProcessing/HTML/terms
