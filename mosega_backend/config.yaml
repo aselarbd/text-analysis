@@ -1,11 +1,3 @@
-#database :
-#  db_engine: 'djongo'
-#  db_name: 'mosega'
-#  db_host: 'mongodb+srv://mosega_super_user:mosegasuper@aselacluster-nfyzw.mongodb.net/test?retryWrites=true&w=majority'
-#  db_username: 'mosega'
-#  db_password: 'mosegasuper'
-# engine: 'django.db.backends.mysql'
-
 database :
   engine: 'django.db.backends.mysql'
   dbname: 'mosega'
@@ -50,9 +42,10 @@ logging:
   format:  '%(levelname)s : %(funcName)s : %(asctime)s : %(message)s'
 
 policyFiles:
-  path: 'PreProcessing/HTML/policies'
+  path: 'PreProcessing/HTML/policies/policy.txt'
 
 termFiles:
-  path: 'PreProcessing/HTML/terms'
+  path: 'PreProcessing/HTML/terms/term.txt'
 
-
+temporaryFile:
+  path: 'PreProcessing/Text/temp.txt'
