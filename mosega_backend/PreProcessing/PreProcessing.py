@@ -1,10 +1,14 @@
-from PreProcessing.HTML.Utils import getFileName
-from PreProcessing.CreateDataStructure import create_data_structure, createDataStructure
-from PreProcessing.Text.Utils import readFile
+import io
+import logging
 import os
+
 import Shared.SharedFunctions as functions
+from PreProcessing.CreateDataStructure import createDataStructure
+from PreProcessing.HTML.Utils import generateFile
+from PreProcessing.Text.Utils import readFile
 
 configs = functions.loadConfigs()
+LOGGER = logging.getLogger(__name__)
 
 
 def readURL(url, URLType):
@@ -17,16 +21,22 @@ def readURL(url, URLType):
     @return: cleaned content form given URL
     """
 
-    name = getFileName(url, URLType)
+    generateFile(url, URLType)
     path = ""
     if URLType == "policy":
         path = configs['policyFiles']['path']
     elif URLType == "term":
         path = configs['termFiles']['path']
-    filePath = path + "/" + name + ".txt"
-    file = readFile(filePath, URLType)
-    os.remove(filePath)
-    return file
+    filePath = os.getcwd() + "/" + path
+    urlData = readFile(filePath, URLType)
+
+    with io.open(filePath, mode="w+", encoding="utf-8") as f:
+        try:
+            f.truncate(0)
+            LOGGER.debug("Successfully deleted temporary file")
+        except IOError:
+            LOGGER.debug("Error In deleting temporary file")
+    return urlData
 
 
 def startPipeline(url, URLType):

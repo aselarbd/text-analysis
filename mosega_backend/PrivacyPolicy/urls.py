@@ -6,7 +6,7 @@ from Handlers.Config.ConfigHandler import *
 configs = ConfigHandler.load_config('config.yaml')
 
 
-API_PATH = configs['api']['backend']['Policy']['view'] + '/' +configs['api']['title'] + '/' +\
+API_PATH = configs['api']['title'] + '/' +\
            configs['api']['current_version'] + '/' + configs['api']['backend']['Policy']['name']
 
 urlpatterns = [

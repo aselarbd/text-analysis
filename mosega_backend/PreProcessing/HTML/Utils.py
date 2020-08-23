@@ -1,10 +1,10 @@
 import requests
 import io
 import re
+import os
 from bs4 import BeautifulSoup
 import html2text
 from lxml.html.clean import Cleaner
-from urllib.parse import urlparse
 import logging
 import Shared.SharedFunctions as functions
 import Shared.LogSetup as logSetup
@@ -21,11 +21,10 @@ def cleanTags(url):
     Clean HTML Tags of given URL
 
     @param url: URL that object contains
-    @return: name and formatted text of URL
+    @return: formatted text of URL
     """
     response = requests.get(url)
     response.encoding = 'utf-8'
-    name = urlparse(response.request.url).hostname.split(".")[1]
 
     # Clean HTML page
     cleaner = Cleaner()
@@ -67,14 +66,13 @@ def cleanTags(url):
 
     LOGGER.debug("HTML file cleaned : "+url)
 
-    return name, formattedText
+    return formattedText
 
 
-def createFile(fileName, content, fileType):
+def createFile(content, fileType):
     """
     write given content to given file
 
-    @param fileName: file name of file that need to create
     @param content: content of given file
     @param fileType: file type policy or terms
     """
@@ -85,24 +83,22 @@ def createFile(fileName, content, fileType):
     elif fileType == "term":
         path = configs['termFiles']['path']
 
-    filePath = path + "/" + fileName + ".txt"
+    filePath = os.getcwd()+"/"+path
 
-    with io.open(filePath, mode="w", encoding="utf-8") as f:
+    with io.open(filePath, mode="w+", encoding="utf-8") as f:
         try:
             f.write(content)
-            LOGGER.debug("cleaned HTML was wrote a file : "+fileName)
+            LOGGER.debug("cleaned HTML was wrote a file")
         except IOError:
-            LOGGER.debug("Error while writing the cleaned HTML to a file : "+fileName)
+            LOGGER.debug("Error while writing the cleaned HTML to a file")
 
 
-def getFileName(url, fileType):
+def generateFile(url, fileType):
     """
     given url is formatted by removing HTML tags and saved to a file  and return saved file name
 
     @param url: URL that need to retrieve data
     @param fileType: type of file policy or term
-    @return: name of saved file
     """
-    fileName, content = cleanTags(url)
-    createFile(fileName, content, fileType)
-    return fileName
+    content = cleanTags(url)
+    createFile(content, fileType)

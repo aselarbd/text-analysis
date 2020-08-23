@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
-import * as URL from './constants/URL';
 import policyReducer from './store/reducers/policyReducer';
 import selectedPolicyReducer from './store/reducers/selectedPolicyReducer';
 import termReducer from './store/reducers/termReducer';
@@ -23,7 +22,25 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer);
 
-axios.defaults.baseURL =URL.BASE_URL;
+axios.interceptors.request.use(request => {
+        console.log(request);
+        console.log('url : '+request.url);
+        console.log('base url : '+request.baseURL);
+        return request;
+    }, error => {
+        console.log(error);
+        return Promise.reject(error);
+    }
+);
+
+axios.interceptors.response.use(response => {
+        console.log(response);
+        return response;
+    }, error => {
+        console.log(error);
+        return Promise.reject(error);
+    }
+);
 
 ReactDOM.render(<Provider store={store}> <App /> </Provider>, document.getElementById('root'));
 
