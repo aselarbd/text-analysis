@@ -1,10 +1,28 @@
 import React, {Component} from 'react';
-import {Button, Card} from 'semantic-ui-react';
+import {Button, Card, Input} from 'semantic-ui-react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actionType from '../../../store/action';
 
 class cardDeck extends Component{
+
+    state={
+        similarityTextBox:''
+    };
+
+    similarityTextBoxHandler = (event) => {
+        this.setState({similarityTextBox:event.target.value});
+    };
+
+    similarityTextBoxButtonHandler = () => {
+        if (this.state.similarityTextBox !== ''){
+            this.props.addSimilarityQuery({query:this.state.similarityTextBox, queryType:this.props.displayType});
+
+            this.props.history.push({
+                pathname:"/process",
+            });
+        }
+    };
 
 
     findClauses = () => {
@@ -22,6 +40,17 @@ class cardDeck extends Component{
         if (this.props.displayType === "policy" || this.props.displayType === "term"){
             controlPanel = <div>
                 <Button basic color='black' onClick={this.findClauses}>Find Similar clauses based on Topic </Button>
+                <Input style={{marginLeft: "20px", marginRight: "20px"}}
+                       size='large' icon='search'
+                       placeholder='Search Similarity phrases ...'
+                       value={this.state.similarityTextBox}
+                       onChange={this.similarityTextBoxHandler}
+                />
+                <Button basic color='black'
+                        size='large'
+                        onClick={this.similarityTextBoxButtonHandler}
+                >Search </Button>
+
             </div>
         }
 
@@ -39,7 +68,7 @@ class cardDeck extends Component{
         );
 
     }
-};
+}
 
 const mapDispatchToProps = dispatch => {
     return {
