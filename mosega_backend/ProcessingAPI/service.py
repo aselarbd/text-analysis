@@ -24,6 +24,8 @@ class ProcessService:
             return self.similarity(request)
         if processType == 'cluster':
             return self.getCluster(request)
+        if processType == 'preCluster':
+            return self.preCluster(request)
 
     def similarity(self, request):
         clauses = request.data['clauses']
@@ -35,6 +37,14 @@ class ProcessService:
         dataType = request.data['dataType']
         noOfClusters = request.data['noOfClusters']
         return doCluster(noOfClusters=noOfClusters, cacheType=dataType)
+
+    def preCluster(self, request):
+        dataType = request.data['dataType']
+        noOfClusters = request.data['noOfClusters']
+        headerTitle = request.data['headerTitle']
+        clusters = doCluster(noOfClusters=noOfClusters, cacheType=dataType)
+        clusterNo = self.findClusterNumber(clusters, headerTitle)
+        return clusters[clusterNo]
 
     # cache initialization
 
@@ -51,3 +61,10 @@ class ProcessService:
     def initializeTermCache(self):
         terms = self.termDBHandler.getAllTerm()
         self.termCache.initializeTermCache(terms)
+
+    def findClusterNumber(self, clusters, headerTitle):
+        for i in range(len(clusters)):
+            for item in clusters[i]:
+                if item['heading'] == headerTitle:
+                    return i
+
