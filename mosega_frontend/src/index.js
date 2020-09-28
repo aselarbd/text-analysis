@@ -9,6 +9,7 @@ import selectedPolicyReducer from './store/reducers/selectedPolicyReducer';
 import termReducer from './store/reducers/termReducer';
 import selectedTermReducer from './store/reducers/selectedTermReducer';
 import similarityCheckReducer from './store/reducers/similarityCheckReducer';
+import preClusterReducer from './store/reducers/preClusterReducer';
 import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     selectedPolicy : selectedPolicyReducer,
     terms: termReducer,
     selectedTerm: selectedTermReducer,
-    similarityCheck: similarityCheckReducer
+    similarityCheck: similarityCheckReducer,
+    preCluster: preClusterReducer
 });
 
 const store = createStore(rootReducer);
