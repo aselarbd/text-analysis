@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Message,  Dimmer, Loader, Segment, Divider, Header, Button } from 'semantic-ui-react';
 import SubPart from '../../Shared/CardDeck/CardDeck';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import * as URL from '../../../constants/URL';
 import classes from './FullTerm.css';
@@ -16,6 +17,13 @@ class FullTerm extends Component{
 
     goToURLHandler = (url) => {
         window.location.replace(url);
+    };
+
+    findSimilarSetHandler = () => {
+        this.props.similarSetHandler({"ID": this.props.loadedTermID, "queryType":"term"});
+        this.props.history.push({
+            pathname:"/similarity-set",
+        });
     };
 
     componentDidMount() {
@@ -70,6 +78,13 @@ class FullTerm extends Component{
                             >
                                 Visit web site
                             </Button>
+                            <Button
+                                size='big'
+                                color='teal'
+                                onClick={this.findSimilarSetHandler}
+                            >
+                                Find Similar items to individual headings
+                            </Button>
                         </Header>
                     </Segment>
                     <br/>
@@ -93,8 +108,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        selectTermHandler: (ID) => dispatch({type:actionType.SELECT_TERM, selectedTermID:ID})
+        selectTermHandler: (ID) => dispatch({type:actionType.SELECT_TERM, selectedTermID:ID}),
+        similarSetHandler: (queryItem) => dispatch({type:actionType.SIMILAR_SET_QUERY, payload:queryItem})
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (FullTerm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps) (FullTerm));

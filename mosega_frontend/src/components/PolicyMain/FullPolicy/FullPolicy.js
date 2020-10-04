@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Message, Dimmer, Loader, Segment, Divider, Header, Button} from 'semantic-ui-react';
 import CardDeck from '../../Shared/CardDeck/CardDeck';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import * as URL from '../../../constants/URL';
 import classes from './FullPolicy.css';
@@ -16,6 +17,13 @@ class FullPolicy extends Component{
 
     goToURLHandler = (url) => {
         window.location.replace(url);
+    };
+
+    findSimilarSetHandler = () => {
+        this.props.similarSetHandler({"ID": this.props.loadedPolicyID, "queryType":"policy"});
+        this.props.history.push({
+            pathname:"/similarity-set",
+        });
     };
 
     componentDidMount() {
@@ -70,6 +78,13 @@ class FullPolicy extends Component{
                             >
                                 Visit web site
                             </Button>
+                            <Button
+                                size='big'
+                                color='teal'
+                                onClick={this.findSimilarSetHandler}
+                            >
+                                Find Similar items to individual headings
+                            </Button>
                         </Header>
                     </Segment>
                     <br/>
@@ -97,8 +112,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        select_policy_handler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID})
+        select_policy_handler: (ID) => dispatch({type:actionType.SELECT_POLICY, selectedPolicyID:ID}),
+        similarSetHandler: (queryItem) => dispatch({type:actionType.SIMILAR_SET_QUERY, payload:queryItem})
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (FullPolicy);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps) (FullPolicy));
