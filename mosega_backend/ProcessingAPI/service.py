@@ -26,8 +26,8 @@ class ProcessService:
             return self.getCluster(request)
         if processType == 'preCluster':
             return self.preCluster(request)
-        if processType == 'oneCluster':
-            return self.oneCLuster(request)
+        if processType == 'similaritySet':
+            return self.similaritySet(request)
 
     def similarity(self, request):
         clauses = request.data['clauses']
@@ -48,7 +48,7 @@ class ProcessService:
         clusterNo = self.findClusterNumber(clusters, headerTitle)
         return clusters[clusterNo]
 
-    def oneCLuster(self, request):
+    def similaritySet(self, request):
         dataType = request.data['dataType']
         itemID = request.data['ID']
         item = None
