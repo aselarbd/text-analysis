@@ -26,6 +26,8 @@ class ProcessService:
             return self.getCluster(request)
         if processType == 'preCluster':
             return self.preCluster(request)
+        if processType == 'oneCluster':
+            return self.oneCLuster(request)
 
     def similarity(self, request):
         clauses = request.data['clauses']
@@ -45,6 +47,24 @@ class ProcessService:
         clusters = doCluster(noOfClusters=noOfClusters, cacheType=dataType)
         clusterNo = self.findClusterNumber(clusters, headerTitle)
         return clusters[clusterNo]
+
+    def oneCLuster(self, request):
+        dataType = request.data['dataType']
+        itemID = request.data['ID']
+        item = None
+        if dataType == 'policy':
+            item = PolicyCache.getOnePolicy(itemID)
+        if dataType == 'term':
+            item = TermCache.getOneTerm(itemID)
+        if item is None:
+            return {"error message": "There is a error with the database / cache"}
+        else:
+            result = []
+            for dataItem in item.data:
+                heading = dataItem['heading']
+                similarSet = getSimilarClauses(query=heading, clauses=5, cacheType=dataType)
+                result.append({"heading": heading, "similarSet": similarSet})
+            return result
 
     # cache initialization
 
@@ -67,4 +87,3 @@ class ProcessService:
             for item in clusters[i]:
                 if item['heading'] == headerTitle:
                     return i
-
