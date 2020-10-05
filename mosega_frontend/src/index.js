@@ -10,6 +10,7 @@ import termReducer from './store/reducers/termReducer';
 import selectedTermReducer from './store/reducers/selectedTermReducer';
 import similarityCheckReducer from './store/reducers/similarityCheckReducer';
 import preClusterReducer from './store/reducers/preClusterReducer';
+import similaritySetReducer from './store/reducers/similaritySetReducer';
 import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     terms: termReducer,
     selectedTerm: selectedTermReducer,
     similarityCheck: similarityCheckReducer,
-    preCluster: preClusterReducer
+    preCluster: preClusterReducer,
+    similaritySet: similaritySetReducer
 });
 
 const store = createStore(rootReducer);
