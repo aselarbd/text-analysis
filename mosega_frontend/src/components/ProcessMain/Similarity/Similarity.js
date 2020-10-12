@@ -73,6 +73,7 @@ class Similarity extends Component {
             this.setState({
                 query:this.props.similarQuery,
                 dataType:this.props.similarQueryType,
+                processType:this.props.similarProcessType,
                 optionsSelected:true
             });
             if (this.props.similarQueryType==='policy'){
@@ -89,7 +90,7 @@ class Similarity extends Component {
         if (this.state.makeRequest){
 
             const data = {
-                "processType":"similar",
+                "processType":this.state.processType,
                 "dataType":this.state.dataType,
                 "query": this.state.query,
                 "clauses": +this.state.clauses
@@ -196,7 +197,8 @@ const mapStateToProps = state => {
   return {
       similarQueryCheck: state.similarityCheck.queryCheck,
       similarQuery: state.similarityCheck.query,
-      similarQueryType: state.similarityCheck.queryType
+      similarQueryType: state.similarityCheck.queryType,
+      similarProcessType: state.similarityCheck.processType
 
   }
 };
