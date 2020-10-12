@@ -21,7 +21,7 @@ django-redis==4.12.1
 django-rest-knox==4.1.0
 django-rest-swagger==2.2.0
 djangorestframework==3.12.1
-dnspython==2.0.0
+dnspython==1.16.0
 dnspython3==1.15.0
 docutils==0.16
 html2text==2020.1.16
