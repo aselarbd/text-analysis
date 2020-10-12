@@ -34,7 +34,23 @@ class cardDeck extends Component{
 
 
     findClauses = () => {
-        this.props.addSimilarityQuery({query:this.props.heading, queryType:this.props.displayType});
+        this.props.addSimilarityQuery({
+            query:this.props.heading,
+            queryType:this.props.displayType,
+            processType:"similar"
+        });
+
+        this.props.history.push({
+            pathname:"/process",
+        });
+    };
+
+    findSimilarityBasedOnWhole = () => {
+        this.props.addSimilarityQuery({
+            query:this.props.text,
+            queryType:this.props.displayType,
+            processType:"similarityWhole"
+        });
 
         this.props.history.push({
             pathname:"/process",
@@ -65,6 +81,7 @@ class cardDeck extends Component{
         if (this.props.displayType === "policy" || this.props.displayType === "term"){
             controlPanel = <div>
                 <Button basic color='black' onClick={this.findClauses}>Find Similar clauses based on Topic </Button>
+                <Button basic color='black' onClick={this.findSimilarityBasedOnWhole}>Find Similar clauses based on Full Content </Button>
 
                 <Input style={{marginLeft: "20px", marginRight: "20px"}}
                        size='large' icon='search'

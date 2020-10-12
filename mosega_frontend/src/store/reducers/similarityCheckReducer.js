@@ -3,7 +3,8 @@ import * as actionType from '../action';
 const initialState = {
     queryCheck:false,
     query: null,
-    queryType: null
+    queryType: null,
+    processType: null
 };
 
 const reducer =(state= initialState, action) => {
@@ -11,14 +12,17 @@ const reducer =(state= initialState, action) => {
         return {
             queryCheck:true,
             query: action.payload.query,
-            queryType: action.payload.queryType
+            queryType: action.payload.queryType,
+            processType: action.payload.processType
         }
 
     } else if (action.type === actionType.REMOVE_SIMILARITY_QUERY){
         return {
             queryCheck:false,
             query: null,
-            queryType: null        }
+            queryType: null,
+            processType: null
+        }
     }else {
         return state
     }
