@@ -5,6 +5,7 @@ from Handlers.Database.TermHandler import TermHandler
 from TermsAndConditions.models import TermDetails, TermHighLevel
 from Handlers.Cache.PolicyCache import PolicyCache
 from Handlers.Cache.TermCache import TermCache
+from Processing.TextPreProcess import textPreProcess
 
 
 class ProcessService:
@@ -28,6 +29,9 @@ class ProcessService:
             return self.preCluster(request)
         if processType == 'similaritySet':
             return self.similaritySet(request)
+        if processType == 'similarityWhole':
+            request.data['query'] = textPreProcess(request.data['query'])
+            return self.similarity(request)
 
     def similarity(self, request):
         clauses = request.data['clauses']
