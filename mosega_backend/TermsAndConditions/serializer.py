@@ -2,8 +2,8 @@ from rest_framework import serializers
 
 """
 Term objects and object serializer
-
 """
+
 
 class TermSerializer(serializers.Serializer):
     id = serializers.SerializerMethodField('getIDField')

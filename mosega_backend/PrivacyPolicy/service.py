@@ -27,13 +27,13 @@ class PolicyService:
 
     @staticmethod
     def postPolicy(request):
-        policyData = PreProcessing.getPolicy(request.data['url'])
-        policyTitle = urlparse(request.data['url']).hostname.split(".")[1]
-        policyURL = request.data['url']
-        policy = Policy(title=policyTitle, url=policyURL, data=policyData)
+        policy_data = PreProcessing.getPolicy(request.data['url'])
+        policy_title = urlparse(request.data['url']).hostname.split(".")[1]
+        policy_url = request.data['url']
+        policy = Policy(title=policy_title, url=policy_url, data=policy_data)
 
-        policyID = PolicyService.dbHandler.addPolicy(policy)
-        policy.id = policyID
+        policy_id = PolicyService.dbHandler.addPolicy(policy)
+        policy.id = policy_id
 
         if len(PolicyService.cacheHandler.getAllPolicy()) == 0:
             PolicyService.initializeCache()
@@ -43,18 +43,18 @@ class PolicyService:
         return serializer.data
 
     @staticmethod
-    def getPolicy(ID):
+    def getPolicy(policy_id):
 
         if len(PolicyService.cacheHandler.getAllPolicy()) == 0:
             PolicyService.initializeCache()
 
-        policy = PolicyService.cacheHandler.getOnePolicy(ID)
+        policy = PolicyService.cacheHandler.getOnePolicy(policy_id)
 
         if policy:
             serializer = PolicySerializer(policy)
             return serializer.data
         else:
-            policy = PolicyService.dbHandler.getOnePolicy(ID)
+            policy = PolicyService.dbHandler.getOnePolicy(policy_id)
             if policy:
                 PolicyService.cacheHandler.addPolicy(policy)
                 serializer = PolicySerializer(policy)
@@ -63,15 +63,15 @@ class PolicyService:
                 return {"error message": "requested policy not found in the database"}
 
     @staticmethod
-    def deletePolicy(ID):
+    def deletePolicy(policy_id):
 
         if len(PolicyService.cacheHandler.getAllPolicy()) == 0:
             PolicyService.initializeCache()
 
-        policy = PolicyService.dbHandler.deletePolicy(ID)
+        policy = PolicyService.dbHandler.deletePolicy(policy_id)
         if policy:
-            if PolicyService.cacheHandler.getOnePolicy(ID):
-                PolicyService.cacheHandler.deleteOnePolicy(ID)
+            if PolicyService.cacheHandler.getOnePolicy(policy_id):
+                PolicyService.cacheHandler.deleteOnePolicy(policy_id)
             serializer = PolicySerializer(policy)
             return serializer.data
         return {"error message": "requested policy not found in the database"}
