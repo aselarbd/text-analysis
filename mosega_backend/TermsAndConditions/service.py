@@ -27,13 +27,13 @@ class TermService:
 
     @staticmethod
     def postTerm(request):
-        termData = PreProcessing.getTerm(request.data['url'])
-        termTitle = urlparse(request.data['url']).hostname.split(".")[1]
-        termURL = request.data['url']
-        term = Term(title=termTitle, url=termURL, data=termData)
+        term_data = PreProcessing.getTerm(request.data['url'])
+        term_title = urlparse(request.data['url']).hostname.split(".")[1]
+        term_url = request.data['url']
+        term = Term(title=term_title, url=term_url, data=term_data)
 
-        termID = TermService.dbHandler.addTerm(term)
-        term.id = termID
+        term_id = TermService.dbHandler.addTerm(term)
+        term.id = term_id
 
         if len(TermService.cacheHandler.getAllTerm()) == 0:
             TermService.initializeCache()
@@ -43,16 +43,16 @@ class TermService:
         return serializer.data
 
     @staticmethod
-    def getTerm(ID):
+    def getTerm(term_id):
         if len(TermService.cacheHandler.getAllTerm()) == 0:
             TermService.initializeCache()
 
-        term = TermService.cacheHandler.getOneTerm(ID)
+        term = TermService.cacheHandler.getOneTerm(term_id)
         if term:
             serializer = TermSerializer(term)
             return serializer.data
         else:
-            term = TermService.dbHandler.getOneTerm(ID)
+            term = TermService.dbHandler.getOneTerm(term_id)
             if term:
                 TermService.cacheHandler.addTerm(term)
                 serializer = TermSerializer(term)
@@ -61,14 +61,14 @@ class TermService:
                 return {"error message": "requested term not found in the database"}
 
     @staticmethod
-    def deleteTerm(ID):
+    def deleteTerm(term_id):
         if len(TermService.cacheHandler.getAllTerm()) == 0:
             TermService.initializeCache()
 
-        term = TermService.dbHandler.deleteTerm(ID)
+        term = TermService.dbHandler.deleteTerm(term_id)
         if term:
-            if TermService.cacheHandler.getOneTerm(ID):
-                TermService.cacheHandler.deleteOneTerm(ID)
+            if TermService.cacheHandler.getOneTerm(term_id):
+                TermService.cacheHandler.deleteOneTerm(term_id)
             serializer = TermSerializer(term)
             return serializer.data
         return {"error message": "requested term not found in the database"}
@@ -77,8 +77,3 @@ class TermService:
     def initializeCache():
         terms = TermService.dbHandler.getAllTerm()
         TermService.cacheHandler.initializeTermCache(terms)
-
-
-
-
-

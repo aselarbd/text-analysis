@@ -22,40 +22,31 @@ class cardDeck extends Component{
         this.setState({similarityTextBox:event.target.value});
     };
 
-    similarityTextBoxButtonHandler = () => {
+    similarityTextHandler = () => {
         if (this.state.similarityTextBox !== ''){
-            this.props.addSimilarityQuery({query:this.state.similarityTextBox, queryType:this.props.displayType});
-
-            this.props.history.push({
-                pathname:"/process",
-            });
+            this.findSimilarity(this.state.similarityTextBox, this.props.displayType, "similar");
         }
     };
 
+    similarityTopicHandler = () => {
+        this.findSimilarity(this.props.heading, this.props.displayType, "similar");
+    };
 
-    findClauses = () => {
+    similarityWholeHandler = () => {
+        this.findSimilarity(this.props.text, this.props.displayType, "similarityWhole");
+    };
+
+    findSimilarity = (query, query_type, process_type) => {
         this.props.addSimilarityQuery({
-            query:this.props.heading,
-            queryType:this.props.displayType,
-            processType:"similar"
+            query:query,
+            queryType:query_type,
+            processType:process_type
         });
 
         this.props.history.push({
             pathname:"/process",
         });
-    };
-
-    findSimilarityBasedOnWhole = () => {
-        this.props.addSimilarityQuery({
-            query:this.props.text,
-            queryType:this.props.displayType,
-            processType:"similarityWhole"
-        });
-
-        this.props.history.push({
-            pathname:"/process",
-        });
-    };
+    }
 
     preClusterButtonHandler = () => {
         if (this.state.preClusterCount !=null){
@@ -80,8 +71,8 @@ class cardDeck extends Component{
 
         if (this.props.displayType === "policy" || this.props.displayType === "term"){
             controlPanel = <div>
-                <Button basic color='black' onClick={this.findClauses}>Find Similar clauses based on Topic </Button>
-                <Button basic color='black' onClick={this.findSimilarityBasedOnWhole}>Find Similar clauses based on Full Content </Button>
+                <Button basic color='black' onClick={this.similarityTopicHandler}>Find Similar clauses based on Topic </Button>
+                <Button basic color='black' onClick={this.similarityWholeHandler}>Find Similar clauses based on Full Content </Button>
 
                 <Input style={{marginLeft: "20px", marginRight: "20px"}}
                        size='large' icon='search'
@@ -91,7 +82,7 @@ class cardDeck extends Component{
                 />
                 <Button basic color='black'
                         size='large'
-                        onClick={this.similarityTextBoxButtonHandler}
+                        onClick={this.similarityTextHandler}
                 >Search </Button>
 
                 <Select style={{marginLeft: "20px", marginRight: "20px"}}

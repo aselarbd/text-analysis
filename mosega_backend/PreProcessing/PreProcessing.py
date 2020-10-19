@@ -1,56 +1,46 @@
 import io
 import logging
 import os
-
-import Shared.SharedFunctions as functions
+from Shared.SharedFunctions import loadConfigs
 from PreProcessing.CreateDataStructure import createDataStructure
 from PreProcessing.HTML.Utils import generateFile
 from PreProcessing.Text.Utils import readFile
-
-configs = functions.loadConfigs()
+configs = loadConfigs()
 LOGGER = logging.getLogger(__name__)
 
 
-def readURL(url, URLType):
+def readURL(url, url_type):
     """
     Fetch data from given URL -> clean HTML elements -> save content to temporary txt file ->
     read from temporary file -> remove temporary file
-
-    @param URLType: policy or term
-    @param url: page URL
-    @return: cleaned content form given URL
     """
 
-    generateFile(url, URLType)
+    generateFile(url, url_type)
     path = ""
-    if URLType == "policy":
+    if url_type == "policy":
         path = configs['policyFiles']['path']
-    elif URLType == "term":
+    elif url_type == "term":
         path = configs['termFiles']['path']
-    filePath = os.getcwd() + "/" + path
-    urlData = readFile(filePath, URLType)
+    file_path = os.getcwd() + "/" + path
+    url_data = readFile(file_path, url_type)
 
-    with io.open(filePath, mode="w+", encoding="utf-8") as f:
+    with io.open(file_path, mode="w+", encoding="utf-8") as f:
         try:
             f.truncate(0)
             LOGGER.debug("Successfully deleted temporary file")
         except IOError:
             LOGGER.debug("Error In deleting temporary file")
-    return urlData
+    return url_data
 
 
-def startPipeline(url, URLType):
+def startPipeline(url, url_type):
     """
     startPipeline gives structured policy
-
-    @param URLType: policy or term
-    @param url: url of the privacy policy or terms of conditions
-    @return: structured policy statement
     """
-    unstructuredData = readURL(url, URLType)
-    structuredData = createDataStructure(unstructuredData)
+    unstructured_data = readURL(url, url_type)
+    structured_data = createDataStructure(unstructured_data)
 
-    return structuredData
+    return structured_data
 
 
 def getPolicy(url):
