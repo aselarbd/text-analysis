@@ -1,54 +1,50 @@
+import copy
+import io
+import logging
 import os
 import re
-import logging
-import io
-import copy
-import Shared.SharedFunctions as functions
 import Shared.LogSetup as logSetup
+from Shared.SharedFunctions import loadConfigs, loadIdentificationTerms
 
-configs = functions.loadConfigs()
-identificationTerms = functions.loadIdentificationTerms()
+configs = loadConfigs()
+identificationTerms = loadIdentificationTerms()
 logSetup.setupLog()
 
 LOGGER = logging.getLogger(__name__)
 
 
-def readFile(path, fileType):
+def readFile(path, file_type):
     """
     This function will read given file in file path and return the privacy policy / terms of conditions part.
-
-    :return: policy text
-    @param path: path of the file
-    @param fileType: type of the file policy or terms of conditions
     """
 
-    idTerms = None
+    id_terms = None
 
     # Predefined identification of policy / terms
-    if fileType == "policy":
-        idTerms = identificationTerms['policy']['identification']
-    elif fileType == "term":
-        idTerms = identificationTerms['term']['identification']
+    if file_type == "policy":
+        id_terms = identificationTerms['policy']['identification']
+    elif file_type == "term":
+        id_terms = identificationTerms['term']['identification']
 
     # Boolean value to check identification terms found
-    idTermFound = False
+    id_term_found = False
 
     # Temporary variable to store newly processed file after cross check with identification terms
-    temporaryFilePath = os.getcwd() + "/" + configs['temporaryFile']['path']
+    temporary_file_path = os.getcwd() + "/" + configs['temporaryFile']['path']
     given_file = open(path, 'r')
 
-    with io.open(temporaryFilePath, mode="w+", encoding="utf-8") as f:
+    with io.open(temporary_file_path, mode="w+", encoding="utf-8") as f:
         try:
             f.truncate(0)
             LOGGER.debug("Cleaned the temporary file")
 
             for line in given_file:
 
-                if idTermFound:
+                if id_term_found:
                     f.write(line + '\n')
                 else:
-                    if re.compile('|'.join(idTerms), re.IGNORECASE).search(line):
-                        idTermFound = True
+                    if re.compile('|'.join(id_terms), re.IGNORECASE).search(line):
+                        id_term_found = True
                         f.write(line + '\n')
                         LOGGER.debug('Identification words found')
         except IOError:
@@ -56,9 +52,9 @@ def readFile(path, fileType):
 
         given_file.close()
 
-    LOGGER.debug("Read the" + fileType + " file : " + path)
+    LOGGER.debug("Read the" + file_type + " file : " + path)
 
-    selectedFile = open(temporaryFilePath, "r+")
-    read_file_context = copy.deepcopy(selectedFile.read())
-    selectedFile.close()
+    selected_file = open(temporary_file_path, "r+")
+    read_file_context = copy.deepcopy(selected_file.read())
+    selected_file.close()
     return read_file_context
