@@ -13,6 +13,6 @@ def setupLog():
     logStyle = configs['logging']['format']
     fileName = os.path.abspath(logFile)
 
-    open(fileName, "w+")
+    # open(fileName, "w+")
 
-    logging.basicConfig(filename=fileName, level=logging.DEBUG, format=logStyle)
+    # logging.basicConfig(filename=fileName, level=logging.DEBUG, format=logStyle)

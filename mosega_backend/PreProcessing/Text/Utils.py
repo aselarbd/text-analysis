@@ -27,7 +27,7 @@ def readFile(path, file_type):
         id_terms = identificationTerms['term']['identification']
 
     # Boolean value to check identification terms found
-    id_term_found = False
+    id_term_found = True
 
     # Temporary variable to store newly processed file after cross check with identification terms
     temporary_file_path = os.getcwd() + "/" + configs['temporaryFile']['path']
