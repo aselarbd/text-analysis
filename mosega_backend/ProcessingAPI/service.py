@@ -36,8 +36,8 @@ class ProcessService:
     def similarity(self, request):
         clauses = request.data['clauses']
         query = request.data['query']
-        dataType = request.data['dataType']
-        return getSimilarClauses(query=query, clauses=clauses, cacheType=dataType)
+        data_type = request.data['dataType']
+        return getSimilarClauses(query=query, clauses=clauses, cacheType=data_type)
 
     def getCluster(self, request):
         dataType = request.data['dataType']

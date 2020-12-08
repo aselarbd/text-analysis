@@ -61,8 +61,15 @@ def processPreparation(cacheType, languageModel):
 def getSimilarClauses(query, clauses, cacheType):
     headings, descriptions, corpus = processPreparation(cacheType=cacheType, languageModel=embedder)
     corpusUpdate(newCorpus=corpus, cacheType=cacheType)
-    return Similar(query=query, clauses=clauses, headings=headings, descriptions=descriptions, corpus=corpus,
-                   embedder=embedder)
+    similar_set = Similar(query=query, clauses=clauses + 1, headings=headings, descriptions=descriptions, corpus=corpus,
+                          embedder=embedder)
+
+    if similar_set[0]['accuracy'] == 1.0 or similar_set[0]['heading'] == query:
+        result_set = similar_set[1:]
+    else:
+        result_set = similar_set[:clauses]
+
+    return result_set
 
 
 def doCluster(noOfClusters, cacheType):
