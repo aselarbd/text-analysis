@@ -22,13 +22,25 @@ def cleanTags(url):
     paragraphs = justext.justext(page, justext.get_stoplist('English'))
     for paragraph in paragraphs:
         if paragraph.class_type == 'good':
-            if paragraph.is_heading:
-                formatted_text += "## " + paragraph.text + "\n"
+            if paragraph.is_heading or header_checker(paragraph.words_count, paragraph.text):
+                formatted_text += "########## " + paragraph.text + "\n"
             else:
                 formatted_text += paragraph.text + "\n"
 
     LOGGER.debug("HTML file cleaned : "+url)
     return formatted_text
+
+
+def header_checker(word_count, text):
+    if word_count <= 7:
+        if text.startswith("(") and text.endswith(")"):
+            return False
+        else:
+            return True
+    else:
+        return False
+
+
 
 
 def createFile(content, file_type):

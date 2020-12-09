@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_swagger',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +96,7 @@ DATABASES = {
         'HOST': configs['database']['host'],
         'PORT': configs['database']['port'],
         'PASSWORD': configs['database']['password'],
+        'OPTIONS': {'charset': 'utf8mb4'},
     }
 }
 

@@ -12,20 +12,27 @@ const cardItem = (props) => {
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
-                <div className='ui two buttons'>
+                <div className='ui three buttons'>
                     <Button
                         basic
                         color='green'
                         onClick={props.goToURL}
                     >
-                        Visit Web Site
+                        Go To
                     </Button>
                     <Button
                         basic
                         color='blue'
                         onClick={props.viewItem}
                     >
-                        {props.buttonText}
+                        View
+                    </Button>
+                    <Button
+                        basic
+                        color='red'
+                        onClick={props.deleteItem}
+                    >
+                        Delete
                     </Button>
                 </div>
             </Card.Content>

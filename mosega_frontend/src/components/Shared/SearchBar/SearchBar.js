@@ -6,6 +6,7 @@ import Result from '../../Shared/CardItem/CardItem';
 import Aux from './../../../hoc/Aux';
 import * as actionType from "../../../store/action";
 import {connect} from 'react-redux';
+import * as UTILS from '../../Shared/Utils/Utils';
 
 class SearchBar extends Component {
 
@@ -19,6 +20,10 @@ class SearchBar extends Component {
 
     goToURLHandler = (url) => {
         window.location.replace(url);
+    };
+
+    deleteHandler = (item_type, item_id) =>{
+        UTILS.deleteItems(item_type,item_id);
     };
 
     handleResultSelect = (e, { result }) => {
@@ -58,7 +63,6 @@ class SearchBar extends Component {
                 <Result
                     key={'search_'+item.id}
                     title={item.title}
-                    buttonText= {this.props.button_text}
                     dataType= {this.props.data_type}
                     goToURL={() => this.goToURLHandler(item.url)}
                     viewItem={() => {
@@ -66,6 +70,7 @@ class SearchBar extends Component {
                         if (this.props.type==='term') {this.props.select_term_handler(Number(item.id));}
                         }
                     }
+                    deleteItem={() => this.deleteHandler(this.props.type, Number(item.id))}
                 />
             )
             );
