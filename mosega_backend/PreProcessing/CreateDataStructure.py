@@ -1,7 +1,8 @@
 import re
+import Constants
 
 
-def createDataStructure(unordered_data):
+def create_data_structure(unordered_data):
     """
     This function create structured, flat data structure for further processing
     """
@@ -25,8 +26,8 @@ def createDataStructure(unordered_data):
     for heading in headings:
         index = headings.index(heading)
         json = {
-            "heading": str(heading).replace("#","").lstrip(),
-            "text": ''.join(split_data[heading_index[index][0] + 1: heading_index[index][1]])
+            Constants.HEADING: str(heading).replace("#", "").lstrip(),
+            Constants.TEXT: ''.join(split_data[heading_index[index][0] + 1: heading_index[index][1]])
         }
         ordered_data.append(json)
     return ordered_data

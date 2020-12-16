@@ -1,14 +1,15 @@
 from sklearn.cluster import AgglomerativeClustering
+import Constants
 
 
-def Cluster(noOfClusters, headings, descriptions, corpus):
-    clusters = [[] for i in range(noOfClusters)]
+def Cluster(no_of_clusters, headings, descriptions, corpus):
+    clusters = [[] for i in range(no_of_clusters)]
 
-    clusteringModel = AgglomerativeClustering(n_clusters=noOfClusters)
-    clusteringModel.fit(corpus)
-    clusterAssignment = clusteringModel.labels_
+    clustering_model = AgglomerativeClustering(n_clusters=no_of_clusters)
+    clustering_model.fit(corpus)
+    cluster_assignment = clustering_model.labels_
 
-    for ID, clusterId in enumerate(clusterAssignment):
-        clusters[clusterId].append({"heading": headings[ID][1].strip(),
-                                    "text": descriptions[ID][1].strip()})
+    for ID, clusterId in enumerate(cluster_assignment):
+        clusters[clusterId].append({Constants.HEADING: headings[ID][1].strip(),
+                                    Constants.TEXT: descriptions[ID][1].strip()})
     return clusters

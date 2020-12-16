@@ -32,7 +32,6 @@ def post_term(request):
 
     generate_cache(database_ref=database, cache_ref=cache)
     cache.add(item=term)
-
     serializer = TermSerializer(term)
     return serializer.data
 

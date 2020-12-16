@@ -4,3 +4,6 @@ POLICY = "policy"
 TERM = "term"
 POLICY_ID = "PolicyID"
 TERM_ID = "TermID"
+SENTENCE_TRANSFORMER = 'bert-base-nli-mean-tokens'
+SIMILARITY_DISTANCE = "cosine"
+SIMILARITY_ACCURACY = "accuracy"

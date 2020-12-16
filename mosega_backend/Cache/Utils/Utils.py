@@ -10,7 +10,7 @@ def add_description_or_text_to_cache(item, field, cache):
 
 
 def generate_corpus(item):
-    embedder = SentenceTransformer('bert-base-nli-mean-tokens')
+    embedder = SentenceTransformer(Constants.SENTENCE_TRANSFORMER)
     heading_list = []
     for data in item.data:
         heading_list.append(data[Constants.HEADING])

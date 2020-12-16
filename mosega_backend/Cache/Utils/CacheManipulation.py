@@ -10,7 +10,6 @@ def add_item(item, object_cache, heading_cache, text_cache, corpus_cache):
     object_cache[str(item.id)] = item
     add_description_or_text_to_cache(item=item, field=Constants.HEADING, cache=heading_cache)
     add_description_or_text_to_cache(item=item, field=Constants.TEXT, cache=text_cache)
-    add_corpus_cache(item=item, cache=corpus_cache)
     return True
 
 

@@ -2,7 +2,7 @@ import io
 import logging
 import os
 from Shared.SharedFunctions import load_configs
-from PreProcessing.CreateDataStructure import createDataStructure
+from PreProcessing.CreateDataStructure import create_data_structure
 from PreProcessing.HTML.Utils import generateFile
 from PreProcessing.Text.Utils import readFile
 configs = load_configs()
@@ -38,7 +38,7 @@ def startPipeline(url, url_type):
     startPipeline gives structured policy
     """
     unstructured_data = readURL(url, url_type)
-    structured_data = createDataStructure(unstructured_data)
+    structured_data = create_data_structure(unstructured_data)
 
     return structured_data
 

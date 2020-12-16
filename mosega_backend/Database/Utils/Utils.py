@@ -28,13 +28,15 @@ def add_to_details_db(database, item, item_id, db_type):
     if db_type == Constants.POLICY:
         section_id = 1
         for data in item.data:
-            db_object = database(PolicyID=item_id, SectionID=section_id, heading=data['heading'], text=data['text'])
+            db_object = database(PolicyID=item_id, SectionID=section_id, heading=data[Constants.HEADING],
+                                 text=data[Constants.TEXT])
             db_object.save()
             section_id += 1
     if db_type == Constants.TERM:
         section_id = 1
         for data in item.data:
-            db_object = database(TermID=item_id, SectionID=section_id, heading=data['heading'], text=data['text'])
+            db_object = database(TermID=item_id, SectionID=section_id, heading=data[Constants.HEADING],
+                                 text=data[Constants.TEXT])
             db_object.save()
             section_id += 1
 
@@ -42,5 +44,5 @@ def add_to_details_db(database, item, item_id, db_type):
 def details_helper(items):
     details_list = []
     for item in items:
-        details_list.append({"heading": item.heading, "text": item.text})
+        details_list.append({Constants.HEADING: item.heading, Constants.TEXT: item.text})
     return details_list
