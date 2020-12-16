@@ -9,7 +9,10 @@ def generate_new_item_id(database, db_type):
 
 
 def id_generator_helper(db, field):
-    return len(db.objects.order_by(field)) + 1
+    if db.objects.values_list(field, flat=True).count() > 0:
+        return max(db.objects.values_list(field, flat=True))+1
+    else:
+        return 1
 
 
 def add_to_high_level_db(database, item_id, item_url, item_title, db_type):

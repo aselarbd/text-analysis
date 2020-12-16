@@ -1,13 +1,13 @@
 import io
 import os
 import logging
-from Shared.SharedFunctions import loadConfigs
+from Shared.SharedFunctions import load_configs
 import Shared.LogSetup as logSetup
 import justext
 import requests
 
 
-configs = loadConfigs()
+configs = load_configs()
 logSetup.setupLog()
 
 LOGGER = logging.getLogger(__name__)

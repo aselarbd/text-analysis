@@ -2,7 +2,7 @@ import os
 import logging
 import Shared.SharedFunctions as functions
 
-configs = functions.loadConfigs()
+configs = functions.load_configs()
 
 
 def setupLog():

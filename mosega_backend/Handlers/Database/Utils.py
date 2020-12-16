@@ -5,10 +5,10 @@ Utils functions for database handlers
 
 
 def detailsHelper(details):
-    detailsList = []
+    details_list = []
     for obj in details:
-        detailsList.append({"heading": obj.heading, "text": obj.text})
-    return detailsList
+        details_list.append({"heading": obj.heading, "text": obj.text})
+    return details_list
 
 
 # Singleton class for Database objects

@@ -41,3 +41,10 @@ def is_cache_empty(object_cache):
         return True
     else:
         return False
+
+
+def is_item_in_cache(item_id, object_cache):
+    if str(item_id) in object_cache:
+        return True
+    else:
+        return False

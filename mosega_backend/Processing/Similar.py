@@ -2,7 +2,7 @@ import scipy.spatial
 
 
 def Similar(query, clauses, headings, descriptions, corpus, embedder):
-    resultList = []
+    result_list = []
 
     queries = [query]
     query_embeddings = embedder.encode(queries)
@@ -14,7 +14,7 @@ def Similar(query, clauses, headings, descriptions, corpus, embedder):
         results = sorted(results, key=lambda x: x[1])
 
         for ID, distance in results[0:clauses]:
-            resultList.append({"heading": headings[ID][1].strip(),
+            result_list.append({"heading": headings[ID][1].strip(),
                                "text": descriptions[ID][1].strip(),
                                "accuracy": 1 - distance})
-    return resultList
+    return result_list

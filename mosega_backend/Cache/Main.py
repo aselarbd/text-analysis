@@ -1,5 +1,6 @@
 from Cache.Utils.CacheInitialization import init_cache
-from Cache.Utils.CacheManipulation import add_item, get_all_items, get_one_item, delete_one_item, is_cache_empty
+from Cache.Utils.CacheManipulation import add_item, get_all_items, get_one_item, delete_one_item, is_cache_empty, \
+    is_item_in_cache
 from Cache.Utils.CacheProcessing import get_all_heading_description_corpus_list, \
     get_heading_descriptions_corpus_except_one
 
@@ -43,6 +44,9 @@ class Cache:
     def delete(self, item_id):
         return delete_one_item(item_id=item_id, object_cache=self.object_cache, heading_cache=self.heading_cache,
                                text_cache=self.text_cache, corpus_cache=self.corpus_cache)
+
+    def is_item_contains(self, item_id):
+        return is_item_in_cache(item_id=item_id, object_cache=self.object_cache)
 
     def get_heading_description_corpus_list(self):
         return get_all_heading_description_corpus_list(heading_cache=self.heading_cache, text_cache=self.text_cache,

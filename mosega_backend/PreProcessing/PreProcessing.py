@@ -1,11 +1,11 @@
 import io
 import logging
 import os
-from Shared.SharedFunctions import loadConfigs
+from Shared.SharedFunctions import load_configs
 from PreProcessing.CreateDataStructure import createDataStructure
 from PreProcessing.HTML.Utils import generateFile
 from PreProcessing.Text.Utils import readFile
-configs = loadConfigs()
+configs = load_configs()
 LOGGER = logging.getLogger(__name__)
 
 

@@ -39,13 +39,13 @@ class TermCache:
 
     @staticmethod
     def addProcessDecAndTextCache(term, field):
-        sectionIndex = 1
+        section_index = 1
         for data in term.data:
             if field == 'heading':
-                TermCache.termProcessHeadingCache[str(term.id) + '_' + str(sectionIndex)] = data[field]
+                TermCache.termProcessHeadingCache[str(term.id) + '_' + str(section_index)] = data[field]
             if field == 'text':
-                TermCache.termProcessTextCache[str(term.id) + '_' + str(sectionIndex)] = data[field]
-            sectionIndex += 1
+                TermCache.termProcessTextCache[str(term.id) + '_' + str(section_index)] = data[field]
+            section_index += 1
 
     @staticmethod
     def getAllTerm():
@@ -83,23 +83,45 @@ class TermCache:
     # ProcessingAPI caching functions
 
     @staticmethod
-    def getAllHeadingsList():
-        headingList = []
+    def get_all_headings_list():
+        heading_list = []
         for key in TermCache.termProcessHeadingCache.keys():
-            headingList.append([key, TermCache.termProcessHeadingCache.get(key)])
-        return headingList
+            heading_list.append([key, TermCache.termProcessHeadingCache.get(key)])
+        return heading_list
 
     @staticmethod
-    def getAllDescriptionList():
-        descriptionList = []
+    def get_all_headings_except_one(item_id):
+        heading_list = []
+        for key in TermCache.termProcessHeadingCache.keys():
+            if key.split("_")[0] != str(item_id):
+                heading_list.append([key, TermCache.termProcessHeadingCache.get(key)])
+        return heading_list
+
+    @staticmethod
+    def get_all_description_list():
+        description_list = []
         for key in TermCache.termProcessTextCache.keys():
-            descriptionList.append([key, TermCache.termProcessTextCache.get(key)])
-        return descriptionList
+            description_list.append([key, TermCache.termProcessTextCache.get(key)])
+        return description_list
 
     @staticmethod
-    def getHeadingAndDescriptionList():
-        headings = TermCache.getAllHeadingsList()
-        descriptions = TermCache.getAllDescriptionList()
+    def get_all_descriptions_except_one(item_id):
+        description_list = []
+        for key in TermCache.termProcessTextCache.keys():
+            if key.split("_")[0] != str(item_id):
+                description_list.append([key, TermCache.termProcessTextCache.get(key)])
+        return description_list
+
+    @staticmethod
+    def get_heading_and_description_list():
+        headings = TermCache.get_all_headings_list()
+        descriptions = TermCache.get_all_description_list()
+        return headings, descriptions
+
+    @staticmethod
+    def get_headings_and_description_without_one(item_id):
+        headings = TermCache.get_all_headings_except_one(item_id)
+        descriptions = TermCache.get_all_descriptions_except_one(item_id)
         return headings, descriptions
 
     @staticmethod
@@ -108,6 +130,6 @@ class TermCache:
 
     @staticmethod
     def getHeadingList():
-        valueList = list(TermCache.termProcessHeadingCache.values())
-        keyList = list(TermCache.termProcessHeadingCache.keys())
-        return keyList, valueList
+        value_list = list(TermCache.termProcessHeadingCache.values())
+        key_list = list(TermCache.termProcessHeadingCache.keys())
+        return key_list, value_list

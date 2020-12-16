@@ -64,16 +64,14 @@ def get_one_item_from_db(item_id, high_level_db, details_db, db_type):
 def delete_one_item_from_db(item_id, high_level_db, details_db, db_type):
     if db_type == Constants.POLICY:
         if high_level_db.objects.filter(PolicyID=item_id).count() > 0:
-            policy = high_level_db.objects.filter(PolicyID=item_id)
             high_level_db.objects.filter(PolicyID=item_id).delete()
             details_db.objects.filter(PolicyID=item_id).delete()
-            return policy
+            return True
     if db_type == Constants.TERM:
         if high_level_db.objects.filter(TermID=item_id).count() > 0:
-            term = high_level_db.objects.filter(TermID=item_id)
             high_level_db.objects.filter(TermID=item_id).delete()
             details_db.objects.filter(TermID=item_id).delete()
-            return term
+            return True
     return None
 
 
