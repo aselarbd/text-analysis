@@ -31,16 +31,33 @@ def delete_cache_item(item_id, cache):
             del cache[k]
 
 
-def get_all_attribute_list(cache):
+def get_all_attribute_list(cache, with_key):
     attribute_list = []
-    for key in cache.keys():
-        attribute_list.append([key, cache.get(key)])
+    for cache_key in cache.keys():
+        if with_key:
+            attribute_list.append([cache_key, cache.get(cache_key)])
+        else:
+            attribute_list.append(cache.get(cache_key))
     return attribute_list
 
 
-def get_all_except_one_attribute_list(item_id, cache):
+def get_all_except_one_attribute_list(item_id, cache, with_key):
     attribute_list = []
-    for key in cache.keys():
-        if key.split("_")[0] != str(item_id):
-            attribute_list.append([key, cache.get(key)])
+    for cache_key in cache.keys():
+        if cache_key.split("_")[0] != str(item_id):
+            if with_key:
+                attribute_list.append([cache_key, cache.get(cache_key)])
+            else:
+                attribute_list.append(cache.get(cache_key))
     return attribute_list
+
+
+def get_missing_object_ids(corpus_keys, total_keys):
+    total_set = set()
+    corpus_set = set()
+
+    for k in total_keys:
+        total_set.add(k.split("_")[0])
+    for k in corpus_keys:
+        corpus_set.add(k.split("_")[0])
+    return total_set - corpus_set
