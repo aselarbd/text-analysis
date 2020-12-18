@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dimmer, Form, Input, Loader, Message, Segment, Divider} from 'semantic-ui-react';
+import {Button, Dimmer, Form, Input, Loader, Message, Segment, Divider, Checkbox} from 'semantic-ui-react';
 import classes from './Similarity.css';
 import Aux from '../../../hoc/Aux';
 import Deck from '../../Shared/CardDeck/CardDeck';
@@ -24,7 +24,9 @@ class Similarity extends Component {
         similarResult: null,
         disableButton: true,
         optionsSelected: false,
-        currentOption: null
+        currentOption: null,
+        itemID:null,
+        itemsFromAllDocs:false
     };
 
     similarityQueryHandler =(event) => {
@@ -41,6 +43,10 @@ class Similarity extends Component {
         this.setState({dataType: val.value});
         this.buttonDisableChecker();
     };
+
+    checkboxHandler = (evt, data) => {
+        this.setState({itemsFromAllDocs:data.checked});
+    }
 
     findSimilarityHandler = () => {
         if (this.state.clauses !=='' && this.state.query !== '' && this.state.dataType !==''){
@@ -74,7 +80,8 @@ class Similarity extends Component {
                 query:this.props.similarQuery,
                 dataType:this.props.similarQueryType,
                 processType:this.props.similarProcessType,
-                optionsSelected:true
+                optionsSelected:true,
+                itemID: this.props.similarityItemID
             });
             if (this.props.similarQueryType==='policy'){
                 this.setState({currentOption: [options[0]]});
@@ -88,14 +95,14 @@ class Similarity extends Component {
 
     componentDidUpdate() {
         if (this.state.makeRequest){
-
             const data = {
                 "processType":this.state.processType,
                 "dataType":this.state.dataType,
                 "query": this.state.query,
-                "clauses": +this.state.clauses
+                "clauses": +this.state.clauses,
+                "itemID": this.state.itemID,
+                "includeAllDocs":this.state.itemsFromAllDocs
             };
-
             axios.post(URL.PROCESSING,data)
                 .then(resp => {
                     this.setState({similarResult:resp.data, makeRequest: null});
@@ -144,6 +151,15 @@ class Similarity extends Component {
             );
         }
 
+        let get_from_each_doc = (
+            <Form.Field>
+                <Checkbox
+                    label='Get At least one Similar clauses from each document'
+                    onClick={(evt, data)=>this.checkboxHandler(evt, data)}
+                />
+            </Form.Field>
+        );
+
         return (
             <Aux>
                 <div className={classes.Similarity}>
@@ -171,6 +187,7 @@ class Similarity extends Component {
                                 onChange={this.noClausesHandler}
                             />
                         </Form.Field>
+                        {this.state.itemID == null ? null : get_from_each_doc}
                         <div className={classes.ButtonRight}>
                             <Form.Field >
                                 <Button
@@ -198,8 +215,8 @@ const mapStateToProps = state => {
       similarQueryCheck: state.similarityCheck.queryCheck,
       similarQuery: state.similarityCheck.query,
       similarQueryType: state.similarityCheck.queryType,
-      similarProcessType: state.similarityCheck.processType
-
+      similarProcessType: state.similarityCheck.processType,
+      similarityItemID: state.similarityCheck.itemID
   }
 };
 

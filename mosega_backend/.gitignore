@@ -132,3 +132,5 @@ dmypy.json
 
 #PreProcessing/HTML/policies
 #PreProcessing/HTML/terms
+
+PreProcessing/Text/temp.txt

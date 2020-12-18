@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Message,  Dimmer, Loader, Segment, Divider, Header, Button } from 'semantic-ui-react';
-import SubPart from '../../Shared/CardDeck/CardDeck';
+import CardDeck from '../../Shared/CardDeck/CardDeck';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
@@ -20,7 +20,7 @@ class FullTerm extends Component{
     };
 
     findSimilarSetHandler = () => {
-        this.props.similarSetHandler({"ID": this.props.loadedTermID, "queryType":"term"});
+        this.props.similarSetHandler({"itemID": this.props.loadedTermID, "queryType":"term"});
         this.props.history.push({
             pathname:"/similarity-set",
         });
@@ -61,7 +61,13 @@ class FullTerm extends Component{
 
         if(this.state.loadedTerm){
             const termRes = this.state.loadedTerm.data.map((item, index) => (
-                <SubPart key={'subPart_'+index} heading={item.heading} text={item.text} displayType="term"/>
+                <CardDeck
+                    key={'subPart_'+index}
+                    heading={item.heading}
+                    text={item.text}
+                    displayType="term"
+                    itemID={this.props.loadedTermID}
+                />
             ));
 
             term =(
@@ -78,13 +84,13 @@ class FullTerm extends Component{
                             >
                                 Visit web site
                             </Button>
-                            <Button
-                                size='big'
-                                color='teal'
-                                onClick={this.findSimilarSetHandler}
-                            >
-                                Find Similar items to individual headings
-                            </Button>
+                            {/*<Button*/}
+                            {/*    size='big'*/}
+                            {/*    color='teal'*/}
+                            {/*    onClick={this.findSimilarSetHandler}*/}
+                            {/*>*/}
+                            {/*    Find Similar items to individual headings*/}
+                            {/*</Button>*/}
                         </Header>
                     </Segment>
                     <br/>

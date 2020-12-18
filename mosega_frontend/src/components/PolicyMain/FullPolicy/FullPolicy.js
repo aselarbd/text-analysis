@@ -20,7 +20,7 @@ class FullPolicy extends Component{
     };
 
     findSimilarSetHandler = () => {
-        this.props.similarSetHandler({"ID": this.props.loadedPolicyID, "queryType":"policy"});
+        this.props.similarSetHandler({"itemID": this.props.loadedPolicyID, "queryType":"policy"});
         this.props.history.push({
             pathname:"/similarity-set",
         });
@@ -61,7 +61,13 @@ class FullPolicy extends Component{
 
         if(this.state.loadedPolicy){
             const policyRes = this.state.loadedPolicy.data.map((item,index) => (
-               <CardDeck key={'subPart_'+index} heading={item.heading} text={item.text} displayType="policy"/>
+               <CardDeck
+                   key={'subPart_'+index}
+                   heading={item.heading}
+                   text={item.text}
+                   displayType="policy"
+                   itemID={this.props.loadedPolicyID}
+               />
             ));
 
             policy =(
@@ -78,13 +84,13 @@ class FullPolicy extends Component{
                             >
                                 Visit web site
                             </Button>
-                            <Button
-                                size='big'
-                                color='teal'
-                                onClick={this.findSimilarSetHandler}
-                            >
-                                Find Similar items to individual headings
-                            </Button>
+                            {/*<Button*/}
+                            {/*    size='big'*/}
+                            {/*    color='teal'*/}
+                            {/*    onClick={this.findSimilarSetHandler}*/}
+                            {/*>*/}
+                            {/*    Find Similar items to individual headings*/}
+                            {/*</Button>*/}
                         </Header>
                     </Segment>
                     <br/>
