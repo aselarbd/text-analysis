@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dimmer, Form, Input, Loader, Message, Segment, Divider} from 'semantic-ui-react';
+import {Button, Dimmer, Form, Input, Loader, Message, Segment, Divider, Checkbox} from 'semantic-ui-react';
 import classes from './Similarity.css';
 import Aux from '../../../hoc/Aux';
 import Deck from '../../Shared/CardDeck/CardDeck';
@@ -25,7 +25,8 @@ class Similarity extends Component {
         disableButton: true,
         optionsSelected: false,
         currentOption: null,
-        itemID:null
+        itemID:null,
+        itemsFromAllDocs:false
     };
 
     similarityQueryHandler =(event) => {
@@ -42,6 +43,10 @@ class Similarity extends Component {
         this.setState({dataType: val.value});
         this.buttonDisableChecker();
     };
+
+    checkboxHandler = (evt, data) => {
+        this.setState({itemsFromAllDocs:data.checked});
+    }
 
     findSimilarityHandler = () => {
         if (this.state.clauses !=='' && this.state.query !== '' && this.state.dataType !==''){
@@ -95,9 +100,9 @@ class Similarity extends Component {
                 "dataType":this.state.dataType,
                 "query": this.state.query,
                 "clauses": +this.state.clauses,
-                "itemID": this.state.itemID
+                "itemID": this.state.itemID,
+                "includeAllDocs":this.state.itemsFromAllDocs
             };
-
             axios.post(URL.PROCESSING,data)
                 .then(resp => {
                     this.setState({similarResult:resp.data, makeRequest: null});
@@ -146,6 +151,15 @@ class Similarity extends Component {
             );
         }
 
+        let get_from_each_doc = (
+            <Form.Field>
+                <Checkbox
+                    label='Get At least one Similar clauses from each document'
+                    onClick={(evt, data)=>this.checkboxHandler(evt, data)}
+                />
+            </Form.Field>
+        );
+
         return (
             <Aux>
                 <div className={classes.Similarity}>
@@ -173,6 +187,7 @@ class Similarity extends Component {
                                 onChange={this.noClausesHandler}
                             />
                         </Form.Field>
+                        {this.state.itemID == null ? null : get_from_each_doc}
                         <div className={classes.ButtonRight}>
                             <Form.Field >
                                 <Button
