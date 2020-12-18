@@ -32,4 +32,4 @@ def load_yaml(file_name):
 def generate_cache(cache_ref, database_ref):
     if cache_ref.is_empty():
         items = database_ref.get_all()
-        cache_ref.init_cache(items=items)
+        cache_ref.init_cache_without_corpus(items=items)

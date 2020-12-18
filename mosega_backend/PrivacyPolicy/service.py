@@ -14,7 +14,7 @@ cache = get_cache_reference(Constants.POLICY)
 def get_all_policies():
     if cache.is_empty():
         policies = database.get_all()
-        cache.init_cache(items=policies)
+        cache.init_cache_without_corpus(items=policies)
     else:
         policies = cache.get_all()
     serializer = PolicySerializer(policies, many=True)

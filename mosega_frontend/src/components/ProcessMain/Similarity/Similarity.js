@@ -24,7 +24,8 @@ class Similarity extends Component {
         similarResult: null,
         disableButton: true,
         optionsSelected: false,
-        currentOption: null
+        currentOption: null,
+        itemID:null
     };
 
     similarityQueryHandler =(event) => {
@@ -74,7 +75,8 @@ class Similarity extends Component {
                 query:this.props.similarQuery,
                 dataType:this.props.similarQueryType,
                 processType:this.props.similarProcessType,
-                optionsSelected:true
+                optionsSelected:true,
+                itemID: this.props.similarityItemID
             });
             if (this.props.similarQueryType==='policy'){
                 this.setState({currentOption: [options[0]]});
@@ -88,12 +90,12 @@ class Similarity extends Component {
 
     componentDidUpdate() {
         if (this.state.makeRequest){
-
             const data = {
                 "processType":this.state.processType,
                 "dataType":this.state.dataType,
                 "query": this.state.query,
-                "clauses": +this.state.clauses
+                "clauses": +this.state.clauses,
+                "itemID": this.state.itemID
             };
 
             axios.post(URL.PROCESSING,data)
@@ -198,8 +200,8 @@ const mapStateToProps = state => {
       similarQueryCheck: state.similarityCheck.queryCheck,
       similarQuery: state.similarityCheck.query,
       similarQueryType: state.similarityCheck.queryType,
-      similarProcessType: state.similarityCheck.processType
-
+      similarProcessType: state.similarityCheck.processType,
+      similarityItemID: state.similarityCheck.itemID
   }
 };
 

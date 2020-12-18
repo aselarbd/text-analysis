@@ -14,7 +14,7 @@ cache = get_cache_reference(Constants.TERM)
 def get_all_terms():
     if cache.is_empty():
         terms = database.get_all()
-        cache.init_cache(items=terms)
+        cache.init_cache_without_corpus(items=terms)
     else:
         terms = cache.get_all()
     serializer = TermSerializer(terms, many=True)
