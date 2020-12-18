@@ -4,10 +4,10 @@ import logging
 import os
 import re
 import Shared.LogSetup as logSetup
-from Shared.SharedFunctions import loadConfigs, loadIdentificationTerms
+from Shared.SharedFunctions import load_configs, load_identification_terms
 
-configs = loadConfigs()
-identificationTerms = loadIdentificationTerms()
+configs = load_configs()
+identificationTerms = load_identification_terms()
 logSetup.setupLog()
 
 LOGGER = logging.getLogger(__name__)
