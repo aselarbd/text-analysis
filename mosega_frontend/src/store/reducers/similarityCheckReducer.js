@@ -4,7 +4,8 @@ const initialState = {
     queryCheck:false,
     query: null,
     queryType: null,
-    processType: null
+    processType: null,
+    itemID:null
 };
 
 const reducer =(state= initialState, action) => {
@@ -13,7 +14,8 @@ const reducer =(state= initialState, action) => {
             queryCheck:true,
             query: action.payload.query,
             queryType: action.payload.queryType,
-            processType: action.payload.processType
+            processType: action.payload.processType,
+            itemID: action.payload.itemID
         }
 
     } else if (action.type === actionType.REMOVE_SIMILARITY_QUERY){
@@ -21,7 +23,8 @@ const reducer =(state= initialState, action) => {
             queryCheck:false,
             query: null,
             queryType: null,
-            processType: null
+            processType: null,
+            itemID:null
         }
     }else {
         return state

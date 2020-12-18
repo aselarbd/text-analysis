@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Card, Select, Input} from 'semantic-ui-react';
+import {Button, Card, Select, Input, Grid} from 'semantic-ui-react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actionType from '../../../store/action';
+import * as Constants from '../../../constants/Constants';
 
 
 const options = [
@@ -24,23 +25,25 @@ class cardDeck extends Component{
 
     similarityTextHandler = () => {
         if (this.state.similarityTextBox !== ''){
-            this.findSimilarity(this.state.similarityTextBox, this.props.displayType, "similar");
+            this.findSimilarity(this.state.similarityTextBox, this.props.displayType, Constants.PROCESSING_SIMILAR);
         }
     };
 
     similarityTopicHandler = () => {
-        this.findSimilarity(this.props.heading, this.props.displayType, "similar");
+        this.findSimilarity(this.props.heading, this.props.displayType, Constants.PROCESSING_SIMILAR);
     };
 
     similarityWholeHandler = () => {
-        this.findSimilarity(this.props.text, this.props.displayType, "similarityWhole");
+        this.findSimilarity(this.props.text, this.props.displayType, Constants.PROCESSING_SIMILAR_WHOLE);
     };
 
     findSimilarity = (query, query_type, process_type) => {
+
         this.props.addSimilarityQuery({
             query:query,
             queryType:query_type,
-            processType:process_type
+            processType:process_type,
+            itemID:this.props.itemID
         });
 
         this.props.history.push({
@@ -71,32 +74,54 @@ class cardDeck extends Component{
 
         if (this.props.displayType === "policy" || this.props.displayType === "term"){
             controlPanel = <div>
-                <Button basic color='black' onClick={this.similarityTopicHandler}>Find Similar clauses based on Topic </Button>
-                <Button basic color='black' onClick={this.similarityWholeHandler}>Find Similar clauses based on Full Content </Button>
+                <Grid columns='four' divided='vertically'>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Button basic color='black' onClick={this.similarityTopicHandler}>
+                                Find Similar clauses based on Topic
+                            </Button>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Button basic color='black' onClick={this.similarityWholeHandler}>
+                                Find Similar clauses based on Full Content
+                            </Button>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Input style={{marginLeft: "20px", marginRight: "20px"}}
+                                   size='large' icon='search'
+                                   placeholder='Search Similarity phrases ...'
+                                   value={this.state.similarityTextBox}
+                                   onChange={this.similarityTextBoxHandler}
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Button basic color='black'
+                                    size='large'
+                                    onClick={this.similarityTextHandler}
+                            >Search </Button>
+                        </Grid.Column>
+                    </Grid.Row>
 
-                <Input style={{marginLeft: "20px", marginRight: "20px"}}
-                       size='large' icon='search'
-                       placeholder='Search Similarity phrases ...'
-                       value={this.state.similarityTextBox}
-                       onChange={this.similarityTextBoxHandler}
-                />
-                <Button basic color='black'
-                        size='large'
-                        onClick={this.similarityTextHandler}
-                >Search </Button>
-
-                <Select style={{marginLeft: "20px", marginRight: "20px"}}
-                        required
-                        options={options}
-                        onChange={this.preClusterCountHandler}
-                        placeholder='Select pre cluster count'
-                />
-                <Button basic color='black'
-                        size='large'
-                        style={{marginLeft: "20px", marginRight: "20px"}}
-                        onClick={this.preClusterButtonHandler}
-                >Find the Cluster </Button>
-
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Select style={{marginLeft: "20px", marginRight: "20px"}}
+                                    required
+                                    options={options}
+                                    onChange={this.preClusterCountHandler}
+                                    placeholder='Select pre cluster count'
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Button basic color='black'
+                                    size='large'
+                                    style={{marginLeft: "20px", marginRight: "20px"}}
+                                    onClick={this.preClusterButtonHandler}
+                            >
+                                Find the Cluster
+                            </Button>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         }
 
