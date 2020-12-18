@@ -1,18 +1,17 @@
-from Processing.Utils import process_preparation
+from Processing.Utils import process_preparation, exclude_same_topic_from_result
 from Processing.Similar import Similar
 from Processing.Cluster import Cluster
-import Constants
 
 
-def get_similar_clauses(query, clauses, item_id, database_ref, cache_ref):
+def get_similar_clauses(query, clauses, item_id, database_ref, cache_ref, include_all):
     headings, descriptions, corpus = process_preparation(database=database_ref, cache=cache_ref, without_id=item_id)
     similar_set = Similar(query=query, clauses=clauses + 1, headings=headings, descriptions=descriptions,
                           corpus=corpus)
+    if include_all:
+        # TODO : implement this
+        pass
 
-    if similar_set[0][Constants.SIMILARITY_ACCURACY] == 1.0 or similar_set[0][Constants.HEADING] == query:
-        result_set = similar_set[1:]
-    else:
-        result_set = similar_set[:clauses]
+    result_set = exclude_same_topic_from_result(similar_set=similar_set, query=query, clauses=clauses)
 
     return result_set
 

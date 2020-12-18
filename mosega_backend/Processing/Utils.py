@@ -55,3 +55,12 @@ def get_cache_and_db(data_type, term_database, term_cache, policy_database, poli
         db = policy_database
         cache = policy_cache
     return db, cache
+
+
+def exclude_same_topic_from_result(similar_set, query, clauses):
+    if similar_set[0][Constants.SIMILARITY_ACCURACY] == 1.0 or similar_set[0][Constants.HEADING] == query:
+        result_set = similar_set[1:]
+    else:
+        result_set = similar_set[:clauses]
+    return result_set
+

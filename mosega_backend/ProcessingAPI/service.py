@@ -37,14 +37,16 @@ class ProcessService:
         query = request.data[Constants.QUERY]
         data_type = request.data[Constants.DATA_TYPE]
         item_id = request.data[Constants.ITEM_ID]
+        include_all = request.data[Constants.SIMILARITY_CLAUSES_FROM_EACH]
 
         db, cache = self.select_db_cache(data_type=data_type)
         return get_similar_clauses(query=query, clauses=clauses, item_id=item_id, database_ref=db,
-                                   cache_ref=cache)
+                                   cache_ref=cache, include_all=include_all)
 
     def similarity_set(self, request):
         data_type = request.data[Constants.DATA_TYPE]
         item_id = request.data[Constants.ITEM_ID]
+        include_all = request.data[Constants.SIMILARITY_CLAUSES_FROM_EACH]
 
         db, cache = self.select_db_cache(data_type=data_type)
         item = cache.get_one(item_id=item_id)
@@ -56,7 +58,7 @@ class ProcessService:
             for dataItem in item.data:
                 heading = dataItem[Constants.HEADING]
                 similar_set = get_similar_clauses(query=heading, clauses=3, item_id=item_id, database_ref=db,
-                                                  cache_ref=cache)
+                                                  cache_ref=cache, include_all=include_all)
                 result.append({Constants.HEADING: heading, Constants.SIMILAR_SET: similar_set})
 
             return result
